@@ -1,0 +1,389 @@
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap');
+
+:root {
+    --bg-black: #000000;
+    --text-white: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --text-dim: rgba(255, 255, 255, 0.6);
+    --border-white: rgba(255, 255, 255, 1);
+    --border-soft: rgba(255, 255, 255, 0.2);
+    --font-main: 'General Sans', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 120px;
+    z-index: 100;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo {
+    display: block;
+    width: 187px;
+    height: 25px;
+    background: white; /* Placeholder logo */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 187 25'%3E%3Ctext x='0' y='20' font-family='sans-serif' font-weight='900' font-size='20' fill='black'%3ELOGOIPSUM%3C/text%3E%3C/svg%3E") no-repeat center;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 187 25'%3E%3Ctext x='0' y='20' font-family='sans-serif' font-weight='900' font-size='20' fill='black'%3ELOGOIPSUM%3C/text%3E%3C/svg%3E") no-repeat center;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.nav-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Buttons */
+.btn-pill-wrapper {
+    position: relative;
+    padding: 0.6px;
+    border-radius: 9999px;
+    background: var(--border-white);
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-pill {
+    background: var(--bg-black);
+    color: var(--text-white);
+    padding: 11px 29px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow/Light streak effect */
+.btn-pill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 12px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.btn-pill-white {
+    background: var(--text-white);
+    color: var(--bg-black);
+}
+
+.btn-pill-white::after {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 80%);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 1200px;
+    padding-top: 280px;
+    padding-bottom: 102px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+.badge-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-soft);
+    border-radius: 20px;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+}
+
+.badge-text {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.badge-text span {
+    color: var(--text-dim);
+}
+
+.hero-heading {
+    max-width: 613px;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1.28;
+    background: linear-gradient(144.5deg, #ffffff 28%, rgba(0,0,0,0) 115%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    max-width: 680px;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: -16px; /* Adjusting for the 24px gap specified between heading and subtitle */
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 20px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .hero-content {
+        padding-top: 200px;
+        gap: 32px;
+    }
+    
+    .hero-heading {
+        font-size: 36px;
+    }
+    
+    .hero-subtitle {
+        font-size: 14px;
+        padding: 0 20px;
+    }
+}
+
+/* Secondary Pages */
+.page-wrapper {
+    width: 90%;
+    max-width: 1000px;
+    margin: 120px auto 60px;
+    padding: 20px;
+}
+
+.page-heading {
+    font-size: clamp(60px, 10vw, 100px);
+    font-weight: 700;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 40px;
+    border-bottom: 4px solid var(--border-soft);
+    padding-bottom: 20px;
+}
+
+.page-heading span {
+    color: var(--text-dim);
+}
+
+.subheading {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+/* Timeline/Grid items for secondary pages */
+.timeline-content, .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-soft);
+    padding: 30px;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.timeline-content:hover, .card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-white);
+    transform: translateY(-4px);
+}
+
+.timeline-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.timeline-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.timeline-description {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Form Styles */
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--text-white);
+    font-family: var(--font-main);
+    margin-bottom: 20px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--border-white);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.send-btn {
+    background: var(--text-white);
+    color: var(--bg-black);
+    padding: 12px 32px;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.send-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.divider {
+    height: 1px;
+    background: var(--border-soft);
+    margin: 60px 0;
+}
+
+.social-row {
+    display: flex;
+    gap: 16px;
+}
+
+.social-row a {
+    color: var(--text-white);
+    font-size: 20px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-row a:hover {
+    border-color: var(--border-white);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    text-align: center;
+    color: var(--text-dim);
+    font-style: italic;
+    margin: 40px 0;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding-bottom: 40px;
+}

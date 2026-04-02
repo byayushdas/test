@@ -1,415 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-      <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayush Das</title>
-
-    <!-- Google Cursive Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <style>
-        /* === Brutalist Theme === */
-        :root {
-            --bg: #ffffff;
-            --text: #000000;
-            --sidebar-bg: #000000;
-            --sidebar-text: #ffffff;
-            --border: #000000;
-        }
-
-        [data-theme="dark"] {
-            --bg: #000000;
-            --text: #ffffff;
-            --sidebar-bg: #ffffff;
-            --sidebar-text: #000000;
-            --border: #ffffff;
-        }
-
-        body {
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            transition: background-color 0.2s, color 0.2s;
-            min-height: 100vh;
-            font-family: 'Inter', Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Dynamic Cursor - Desktop Only */
-        @media (hover: hover) and (pointer: fine) {
-            * {
-                cursor: none !important;
-            }
-
-            .custom-cursor {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 32px;
-                height: 32px;
-                pointer-events: none;
-                z-index: 10000;
-                mix-blend-mode: difference;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transform: translate(-50%, -50%);
-                font-family: monospace;
-                font-size: 26px;
-                font-weight: bold;
-                color: white;
-                transition: transform 0.15s ease-out;
-            }
-
-            .custom-cursor.hover {
-                transform: translate(-50%, -50%) scale(1.8);
-            }
-        }
-
-        /* Hide custom cursor on touch devices */
-        @media (hover: none) and (pointer: coarse) {
-            .custom-cursor {
-                display: none !important;
-            }
-        }
-
-        /* Hover Effects */
-        a:hover, .icons a:hover {
-            text-decoration: underline 3px solid var(--text);
-        }
-
-        button:hover {
-            transform: scale(1.1);
-        }
-
-
-        @media (max-width: 480px) {
-            h1 { font-size: 50px; text-align: center; }
-            .bottom-branding { margin-bottom: 20px; }
-            .center-content { padding-top: 60px; width: 90%; }
-            .icons { justify-content: center; flex-wrap: wrap; }
-        }
-
-        /* Theme Toggle Button */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            border: 3px solid var(--text);
-            background: var(--text);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.1s;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        /* Hamburger Button */
-        .hamburger {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .hamburger:hover {
-            transform: scale(1.1);
-        }
-
-        .hamburger span {
-            position: absolute;
-            background: var(--text);
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        /* Horizontal bar */
-        .hamburger span:nth-child(1) {
-            width: 24px;
-            height: 4px;
-        }
-
-        /* Vertical bar */
-        .hamburger span:nth-child(2) {
-            width: 4px;
-            height: 24px;
-        }
-
-        /* Hide the third span */
-        .hamburger span:nth-child(3) {
-            display: none;
-        }
-
-        /* Hamburger open state — turns "+" into "X" */
-        .hamburger.open {
-            transform: rotate(45deg);
-        }
-
-        .hamburger.open span {
-            background: var(--sidebar-text);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 280px;
-            background: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            z-index: 1000;
-            transform: translateX(-100%);
-            transition: transform 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
-            display: flex;
-            flex-direction: column;
-            padding: 100px 40px;
-            border-right: 5px solid var(--sidebar-text);
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .sidebar nav {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .sidebar nav a {
-            color: var(--sidebar-text);
-            text-decoration: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 24px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            transition: padding-left 0.2s;
-            border-radius: 8px;
-        }
-
-        .sidebar nav a:hover {
-            padding-left: 10px;
-            background: var(--sidebar-text);
-            color: var(--sidebar-bg);
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .overlay.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .center-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Name */
-        h1 {
-            margin: 0;
-            font-size: clamp(64px, 12vw, 100px);
-            font-weight: normal;
-            letter-spacing: 2px;
-            font-family: 'Great Vibes', cursive;
-        }
-
-        /* Icons */
-        .icons {
-            margin-top: 25px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .icons a {
-            color: var(--text);
-            font-size: 32px;
-            text-decoration: none;
-            border: 3px solid var(--text);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.1s, color 0.1s;
-            border-radius: 50%;
-        }
-
-        .icons a:hover {
-            background: var(--text);
-            color: var(--bg);
-        }
-        
-        .bottom-branding {
-            margin-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 5px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-            text-align: center;
-            opacity: 0.5;
-            letter-spacing: 1px;
-        }
-    </style>
+    <title>Web3 - At the Speed of Experience</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/jpeg" href="images/favicon1.jpeg">
-    <link rel="apple-touch-icon" href="images/favicon1.jpeg">
-  
 </head>
-
 <body>
 
-    <!-- Hamburger Button -->
-    <button class="hamburger" id="hamburgerBtn" title="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <a href="index.html" onclick="closeSidebar()">Home</a>
-            <a href="education.html" onclick="closeSidebar()">Education</a>
-            <a href="works.html" onclick="closeSidebar()">Works</a>
-            <a href="contact.html" onclick="closeSidebar()">Reach Out</a>
-        </nav>
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-    <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode"></button>
-    
-    <div class="center-content">
-        <h1>Ayush Das</h1>
-
-        <div class="icons">
-            <a href="https://linkedin.com/in/byayushdas" target="_blank">
-                <i class="fab fa-linkedin"></i>
-            </a>
-
-            <a href="https://github.com/byayushdas" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-
-            <a href="https://x.com/byayushdas" target="_blank">
-                <i class="fab fa-x-twitter"></i>
-            </a>
-
-            <a href="https://leetcode.com/byayushdas" target="_blank">
-                <i class="fas fa-code"></i>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo"></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    Get Started
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+                <a href="works.html" class="nav-link">
+                    Developers
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+                <a href="education.html" class="nav-link">
+                    Features
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+                <a href="contact.html" class="nav-link">
+                    Resources
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="btn-pill-wrapper">
+                <div class="btn-pill">Join Waitlist</div>
             </a>
         </div>
-    </div>
+    </nav>
 
-    <!-- Quote & Footer -->
-    <div class="bottom-branding">
-        <p class="footer">2026 | byayushdas</p>
-    </div>
+    <main class="hero">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <div class="badge-pill">
+                <div class="dot"></div>
+                <div class="badge-text">
+                    <span>Early access available from</span> May 1, 2026
+                </div>
+            </div>
+
+            <h1 class="hero-heading">Web3 at the Speed of Experience</h1>
+
+            <p class="hero-subtitle">
+                Powering seamless experiences and real-time connections, EOS is the base for creators who move with purpose, leveraging resilience, speed, and scale to shape the future.
+            </p>
+
+            <a href="#" class="btn-pill-wrapper">
+                <div class="btn-pill btn-pill-white">Join Waitlist</div>
+            </a>
+        </div>
+    </main>
 
     <script>
-        /* ── Dynamic Cursor ── */
-        const cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        cursor.innerText = '{}';
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        document.querySelectorAll('a, button, input, textarea, .theme-toggle, .hamburger').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        /* ── Theme Toggle ── */
-
-        const toggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-
-        if (localStorage.getItem('theme') === 'dark')
-            html.setAttribute('data-theme', 'dark');
-
-        toggle.addEventListener('click', () => {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                html.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
-        /* ── Hamburger / Sidebar ── */
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const sidebar      = document.getElementById('sidebar');
-        const overlay      = document.getElementById('overlay');
-
-        hamburgerBtn.addEventListener('click', () => {
-            const isOpen = sidebar.classList.contains('open');
-            if (isOpen) {
-                closeSidebar();
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.add('open');
-                hamburgerBtn.classList.add('open');
-            }
-        });
-
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-            hamburgerBtn.classList.remove('open');
-        }
+        // Smooth scroll or other interactions can be added here
     </script>
-
 </body>
-
 </html>
