@@ -106,41 +106,6 @@
     line-height: 1;
   }
   .nav-right { display: flex; align-items: center; gap: 1rem; }
-  .nav-links {
-    display: flex;
-    position: fixed;
-    top: 0; right: 0; bottom: 0;
-    width: 250px;
-    background: var(--paper);
-    flex-direction: column;
-    padding: 6rem 2.5rem 2rem;
-    gap: 2rem;
-    border-left: 1px solid var(--border);
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s, border-color 0.4s;
-    z-index: 201;
-    list-style: none;
-  }
-  .nav-links.open {
-    transform: translateX(0);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-  }
-  [data-theme="dark"] .nav-links.open {
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-  }
-  .nav-links a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #444;
-    text-decoration: none;
-    transition: color 0.2s;
-    cursor: pointer;
-  }
-  [data-theme="dark"] .nav-links a { color: #aaa; }
-  .nav-links a:hover { color: var(--ink); }
-
   /* ══════════════ SWITCH ══════════════ */
   .switch-wrap {
     display: flex;
@@ -497,6 +462,7 @@
     scroll-snap-type: x mandatory;
     scrollbar-width: none; /* Firefox */
     width: 100%;
+    min-height: 440px;
     padding: 24px 0;
   }
   .proj-carousel-track-wrap::-webkit-scrollbar {
@@ -1112,45 +1078,6 @@
     .connect-left p { margin-top: 0.4rem; margin-bottom: 0.4rem; font-size: 0.75rem; }
   }
 
-  .mobile-menu-btn {
-    display: flex;
-    background: none;
-    border: none;
-    color: var(--ink);
-    cursor: pointer;
-    padding: 0.5rem;
-    margin-left: -0.5rem;
-    align-items: center;
-    justify-content: center;
-  }
-  .close-menu-btn {
-    display: flex;
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: none;
-    border: none;
-    color: var(--ink);
-    cursor: pointer;
-    padding: 0.5rem;
-    align-items: center;
-    justify-content: center;
-  }
-  .mobile-overlay {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 199;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  .mobile-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
   /* ══════════════ RESPONSIVE ══════════════ */
   @media (max-width: 680px) {
     nav { padding: 0.8rem 1.2rem; height: 60px; }
@@ -1290,14 +1217,6 @@
     }
   }
 
-
-
-
-  .mobile-theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
   .loader-wrapper {
     display: flex;
     justify-content: center;
@@ -1359,9 +1278,6 @@
 </head>
 <body>
 
-<!-- MOBILE OVERLAY -->
-<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
 <!-- NAV -->
 <nav>
   <span class="nav-logo" onclick="goTo(0)">
@@ -1396,36 +1312,11 @@
         <span></span>
       </div>
     </a>
-
-
-    <ul class="nav-links" id="navLinks">
-      <button class="close-menu-btn" onclick="closeMobileMenu()" aria-label="Close menu">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+    <div class="switch-wrap" onclick="toggleTheme()">
+      <button class="switch-btn" role="switch" aria-checked="true" aria-label="Toggle dark mode">
+        <span class="switch-thumb"></span>
       </button>
-      <li class="mobile-theme-toggle">
-        <div class="switch-wrap" onclick="toggleTheme()">
-          <button class="switch-btn" role="switch" aria-checked="true" aria-label="Toggle dark mode">
-            <span class="switch-thumb"></span>
-          </button>
-        </div>
-      </li>
-      <li><a onclick="goTo(0)">Home</a></li>
-      <li><a onclick="goTo(1)">Education</a></li>
-      <li><a onclick="goTo(2)">Works</a></li>
-      <li><a onclick="goTo(3)">Events</a></li>
-      <li><a onclick="goTo(4)">Certifications</a></li>
-      <li><a onclick="goTo(5)">Connect</a></li>
-    </ul>
-    <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
+    </div>
   </div>
 </nav>
 
@@ -1824,8 +1715,7 @@
         <h2 class="section-heading" style="margin-bottom: 0;">My<br><em>certifications</em></h2>
         <div style="display: flex; gap: 10px; align-items: center;">
           <select id="certCategorySelect" class="manual-view-btn" style="appearance: auto; cursor: pointer; padding-right: 15px;">
-            <option value="certifications" selected>Certifications</option>
-            <option value="competitions">Competitions</option>
+            <option value="competitions" selected>Competitions</option>
             <option value="nptel">NPTEL</option>
           </select>
         </div>
@@ -1852,19 +1742,6 @@
           <a href="assets/certs/nptel/n1.webp" target="_blank" class="cert-item nptel" title="View Certificate"><img src="assets/certs/nptel/n1.webp" alt="Certification" decoding="async"></a>
           <a href="assets/certs/nptel/n2.webp" target="_blank" class="cert-item nptel" title="View Certificate"><img src="assets/certs/nptel/n2.webp" alt="Certification" decoding="async"></a>
           <a href="assets/certs/nptel/n3.webp" target="_blank" class="cert-item nptel" title="View Certificate"><img src="assets/certs/nptel/n3.webp" alt="Certification" decoding="async"></a>
-
-          <a href="assets/certs/online/o1.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o1.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o2.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o2.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o3.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o3.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o4.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o4.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o5.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o5.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o6.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o6.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o7.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o7.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o8.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o8.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o9.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o9.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o10.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o10.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o11.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o11.webp" alt="Certification" decoding="async"></a>
-          <a href="assets/certs/online/o12.webp" target="_blank" class="cert-item certifications" title="View Certificate"><img src="assets/certs/online/o12.webp" alt="Certification" decoding="async"></a>
         </div>
       </div>
     </div>
@@ -1939,19 +1816,8 @@
 
   function sec(i)   { return document.getElementById('s' + i); }
 
-  // ── MOBILE MENU ───────────────────────────────────────
-  function openMobileMenu() {
-    document.getElementById('navLinks')?.classList.add('open');
-    document.getElementById('mobileOverlay')?.classList.add('open');
-  }
-  function closeMobileMenu() {
-    document.getElementById('navLinks')?.classList.remove('open');
-    document.getElementById('mobileOverlay')?.classList.remove('open');
-  }
-
   // ── TRANSITION ────────────────────────────────────────
   function goTo(next) {
-    closeMobileMenu();
     if (next === current || locked || next < 0 || next >= N) return;
     locked = true;
 
