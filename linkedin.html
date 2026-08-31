@@ -118,6 +118,54 @@
   .nav-links a:hover { color: var(--ink); }
 
 
+  /* ══════════════ SWITCH ══════════════ */
+  .switch-wrap {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .switch-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: #e2e2e2;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    transition: background 0.35s cubic-bezier(.4,0,.2,1);
+    flex-shrink: 0;
+  }
+  .switch-btn[aria-checked="true"] {
+    background: #1a1a1a;
+  }
+  [data-theme="dark"] .switch-btn[aria-checked="false"] {
+    background: #333;
+  }
+  [data-theme="dark"] .switch-btn[aria-checked="true"] {
+    background: #2a2a2a;
+  }
+  .switch-thumb {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    left: 2px;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), background 0.3s;
+    will-change: transform;
+  }
+  .switch-btn[aria-checked="true"] .switch-thumb {
+    transform: translateX(20px);
+    background: #fde047;
+    box-shadow: 0 0 10px 2px rgba(253,224,71,0.55);
+  }
+  [data-theme="dark"] .switch-thumb { background: #f0eeea; }
+
   /* ── DETAIL WRAP (matches school.html pattern) ── */
   .detail-wrap { flex: 1; display: flex; flex-direction: column; width: 100%; padding-top: 88px; padding-bottom: 0; box-sizing: border-box; }
   .content { margin: 0 auto; width: 100%; max-width: 860px; padding: 0 3rem; box-sizing: border-box; position: relative; }
@@ -376,8 +424,11 @@
         <span></span>
       </div>
     </a>
-
-
+    <div class="switch-wrap" onclick="toggleTheme()">
+      <button class="switch-btn" id="switchBtn" role="switch" aria-checked="true" aria-label="Toggle dark mode">
+        <span class="switch-thumb"></span>
+      </button>
+    </div>
   </div>
 </nav>
 
