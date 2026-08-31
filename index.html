@@ -67,7 +67,6 @@
     padding: 1rem 3rem;
     height: 72px;
     background: var(--paper);
-    border-bottom: 1px solid var(--border);
     transition: background 0.4s, border-color 0.4s;
   }
   .nav-logo {
@@ -263,21 +262,6 @@
     position: relative;
   }
 
-  /* ══════════════ MOUSE SCROLL INDICATOR ══════════════ */
-  .mouse-scroll {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    pointer-events: none;
-    z-index: 5;
-    transition: opacity 0.4s;
-  }
-
   /* ══════════════ FOOTER ══════════════ */
   .footer {
     margin-top: 5px;
@@ -301,42 +285,6 @@
     z-index: 5;
     pointer-events: none;
   }
-  .mouse-scroll.hidden { opacity: 0; }
-  .mouse-body {
-    width: 20px; height: 32px;
-    border: 2px solid var(--ink);
-    opacity: 1;
-    background: var(--paper);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    transition: border-color 0.4s, opacity 0.4s;
-  }
-  .mouse-wheel {
-    width: 3px; height: 7px;
-    background: var(--ink);
-    border-radius: 2px;
-    margin-top: 5px;
-    animation: mwheel 1.6s ease-in-out infinite;
-    transition: background 0.4s;
-  }
-  @keyframes mwheel {
-    0%   { opacity:1; transform:translateY(0); }
-    55%  { opacity:0; transform:translateY(9px); }
-    56%  { opacity:0; transform:translateY(0); }
-    100% { opacity:1; transform:translateY(0); }
-  }
-  .mouse-label {
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink);
-    opacity: 0.75;
-    transition: color 0.4s, opacity 0.4s;
-  }
-
   /* ══════════════ TYPOGRAPHY UTILS ══════════════ */
   .section-label {
     font-family: var(--mono);
@@ -1214,7 +1162,6 @@
     
     .section-dots { display: none; }
     .landing-number { display: none; }
-    .mouse-scroll { display: none; }
     
     .content { width: 100%; }
     .section-heading { font-size: clamp(1.8rem, 8vw, 2.4rem); margin-bottom: 1rem; }
@@ -1344,6 +1291,13 @@
   }
 
 
+
+
+  .mobile-theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   .loader-wrapper {
     display: flex;
     justify-content: center;
@@ -1393,12 +1347,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-
-  .mobile-theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="text/javascript">
@@ -1443,11 +1391,12 @@
     </div>
   </span>
   <div class="nav-right">
-    <a href="terminal.html" class="loader-wrapper" style="text-decoration: none; cursor: pointer;">
+    <a href="linkedin.html" class="loader-wrapper" style="cursor: pointer; text-decoration: none;">
       <div class="loader">
         <span></span>
       </div>
     </a>
+
 
     <ul class="nav-links" id="navLinks">
       <button class="close-menu-btn" onclick="closeMobileMenu()" aria-label="Close menu">
@@ -1541,11 +1490,6 @@
           <div class="status-dot"></div>
         </div>
       </div>
-      <div class="landing-number">01</div>
-    </div>
-    <div class="mouse-scroll" id="ms0">
-      <div class="mouse-body"><div class="mouse-wheel"></div></div>
-      <span class="mouse-label">scroll</span>
     </div>
     <!-- Quote & Footer -->
 
@@ -1554,7 +1498,6 @@
   <!-- ② EDUCATION -->
   <section id="s1" class="wait-below">
     <div class="content">
-      <div class="section-label">02 — Education</div>
       <h2 class="section-heading">Where I<br><em>studied</em></h2>
       <div class="edu-grid">
         <div class="edu-item">
@@ -1600,16 +1543,11 @@
         </div>
       </div>
     </div>
-    <div class="mouse-scroll hidden" id="ms1">
-      <div class="mouse-body"><div class="mouse-wheel"></div></div>
-      <span class="mouse-label">scroll</span>
-    </div>
   </section>
 
   <!-- ③ WORKS -->
   <section id="s2" class="wait-below">
     <div class="content">
-      <div class="section-label">03 — Works</div>
       <div class="cert-header">
         <h2 class="section-heading" style="margin-bottom: 0;">My<br><em>Works</em></h2>
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -1733,16 +1671,11 @@
         </div>
       </div>
     </div>
-    <div class="mouse-scroll hidden" id="ms2">
-      <div class="mouse-body"><div class="mouse-wheel"></div></div>
-      <span class="mouse-label">scroll</span>
-    </div>
   </section>
 
   <!-- ④ EVENTS -->
   <section id="s3" class="wait-below">
     <div class="content">
-      <div class="section-label">04 — Events</div>
       <h2 class="section-heading">Connecting<br><em>dots</em></h2>
       <div class="ach-scroll-wrap">
         <div class="ach-scroll-inner" id="achScrollInner">
@@ -1882,16 +1815,11 @@
         </div>
       </div>
     </div>
-    <div class="mouse-scroll hidden" id="ms3">
-      <div class="mouse-body"><div class="mouse-wheel"></div></div>
-      <span class="mouse-label">scroll</span>
-    </div>
   </section>
 
   <!-- ⑤ CERTIFICATIONS -->
   <section id="s4" class="wait-below">
     <div class="content">
-      <div class="section-label">05 — Certifications</div>
       <div class="cert-header">
         <h2 class="section-heading" style="margin-bottom: 0;">My<br><em>certifications</em></h2>
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -1940,17 +1868,12 @@
         </div>
       </div>
     </div>
-    <div class="mouse-scroll hidden" id="ms4">
-      <div class="mouse-body"><div class="mouse-wheel"></div></div>
-      <span class="mouse-label">scroll</span>
-    </div>
   </section>
 
   <!-- ⑥ CONNECT -->
   <section id="s5" class="wait-below">
     <canvas id="connectWaveBg" style="position:absolute;inset:0;pointer-events:none;z-index:0;width:100%;height:100%;"></canvas>
     <div class="content" style="position:relative;z-index:1;">
-      <div class="section-label">06 — Connect</div>
       <div class="connect-wrap">
         <div class="connect-left">
           <h2 class="section-heading">Get in<br><em>touch</em></h2>
@@ -2015,7 +1938,6 @@
   }
 
   function sec(i)   { return document.getElementById('s' + i); }
-  function mouse(i) { return document.getElementById('ms' + i); }
 
   // ── MOBILE MENU ───────────────────────────────────────
   function openMobileMenu() {
@@ -2062,12 +1984,6 @@
 
     if (current === 2 && window.resetProjCarousel) {
       window.resetProjCarousel();
-    }
-
-
-    for (let i = 0; i < N; i++) {
-      const m = mouse(i);
-      if (m) m.classList.toggle('hidden', i !== current || i === N - 1);
     }
 
     setTimeout(() => {

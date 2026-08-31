@@ -9,7 +9,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Ayush Das | Software Engineer</title>
+<title>Ayush Das | LinkedIn Posts</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -228,8 +228,8 @@
     100% { transform: translateX(-50%); }
   }
   .cert-scroll-container {
-    mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
     overflow: hidden;
     width: 100%;
     position: relative;
@@ -247,16 +247,14 @@
 
   .cert-item {
     flex-shrink: 0;
-    width: auto;
-    min-width: 250px;
-    height: 400px;
+    width: 302px;
+    height: 377px;
     border-radius: 8px;
     overflow: hidden;
     border: none;
     transition: transform 0.3s ease, filter 0.3s ease;
-    display: flex;
-    justify-content: center;
     background-color: transparent;
+    position: relative;
   }
   .cert-item:hover {
     transform: scale(1.05);
@@ -271,6 +269,17 @@
     background-color: transparent;
     display: block;
     border-radius: 8px;
+  }
+  .cert-item iframe {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 504px !important;
+    height: 628px !important;
+    transform: scale(0.6);
+    transform-origin: top left;
+    border: none;
   }
 
   video::-webkit-media-controls-start-playback-button,
@@ -297,9 +306,9 @@
     }
     .nav-right { width: 100%; justify-content: flex-end; }
     .cert-item {
-      min-width: 150px;
-      max-width: 80vw;
-      height: 60vw;
+      width: 302px;
+      height: 377px;
+      max-width: none;
     }
     .cert-item-video { display: none; }
     .project-desc { font-size: 0.75rem !important; }
@@ -376,52 +385,21 @@
   <div class="content" style="position:relative;z-index:1;">
 
       <div>    
-        <h2 class="section-heading">Intelligent Farm<br><em>Surveillance System</em></h2>
-        <p class="project-desc" style="font-size: 1rem; color: var(--mid); line-height: 1.6; max-width: 600px; margin-bottom: 1rem;">
-          Precision Agriculture using DEW (Data Enabled Wireless) Nodes for Crop Recommendation and Aerial Drone for Crop Disease Detection, Cattle, Pest and Weed Detection.
+        <h2 class="section-heading">My LinkedIn<br><em>Posts</em></h2>
+        <p class="project-desc" style="font-size: 1rem; color: var(--mid); line-height: 1.6; max-width: 600px; margin-bottom: 2rem;">
+          A collection of my recent thoughts, articles, and updates shared on LinkedIn.
         </p>
-        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem;">
-          <div class="proj-awards" style="margin-bottom: 0;">
-            <span class="proj-award-item">
-              <svg class="award-medal" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l2.4 1.5 2.8-.5.9 2.7 2.6 1.1-.4 2.8 1.9 2.1-1.4 2.5.5 2.8-2.6 1-1 2.7-2.8-.4L12 19l-2.4-1.5-2.8.5-.9-2.7-2.6-1.1.4-2.8-1.9-2.1 1.4-2.5-.5-2.8 2.6-1 1-2.7 2.8.4L12 2zm0 4.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
-                <path d="M6 16.5l-2 7 4.5-2.5 2.5 1.5V18a8.5 8.5 0 0 1-5-1.5z"/>
-                <path d="M18 16.5a8.5 8.5 0 0 1-5 1.5v4.5l2.5-1.5L20 23.5l-2-7z"/>
-              </svg>
-              IEEE YESIST12 MakerFair Track Finalist, Malaysia
-            </span>
-            <span class="proj-award-item">
-              <svg class="award-medal" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l2.4 1.5 2.8-.5.9 2.7 2.6 1.1-.4 2.8 1.9 2.1-1.4 2.5.5 2.8-2.6 1-1 2.7-2.8-.4L12 19l-2.4-1.5-2.8.5-.9-2.7-2.6-1.1.4-2.8-1.9-2.1 1.4-2.5-.5-2.8 2.6-1 1-2.7 2.8.4L12 2zm0 4.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
-                <path d="M6 16.5l-2 7 4.5-2.5 2.5 1.5V18a8.5 8.5 0 0 1-5-1.5z"/>
-                <path d="M18 16.5a8.5 8.5 0 0 1-5 1.5v4.5l2.5-1.5L20 23.5l-2-7z"/>
-              </svg>
-              IEEE Robotics Competition Second Runners&#8209;Up, Kolkata
-            </span>
-          </div>
-          <a class="star-btn" href="https://github.com/byayushdas/IntelligentFarmSurveillanceSystem.git" target="_blank">
-
-            <span class="star-btn-text" style="display: flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-              Docs ↗
-            </span>
-          </a>
-        </div>
 
       <div class="cert-scroll-container" id="certScrollContainer">
         <div class="cert-infinite-scroll" id="certInfiniteScroll">
-          <a href="assets/projects/farm/f1.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f1.webp" alt="Farm image 1"></a>
-          <a href="assets/projects/farm/f2.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f2.webp" alt="Farm image 2"></a>
-          <a href="assets/projects/farm/f3.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f3.webp" alt="Farm image 3"></a>
-          <a href="assets/projects/farm/f4.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f4.webp" alt="Farm image 4"></a>
-          <a href="assets/projects/farm/f5.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f5.webp" alt="Farm image 5"></a>
-          <a href="assets/projects/farm/f6.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f6.webp" alt="Farm image 6"></a>
-          <div class="cert-item cert-item-video">
-            <video class="carousel-video" loop muted playsinline preload="auto" style="aspect-ratio: 9/16; height: 100%; object-fit: contain; pointer-events: none; outline: none; border: none;" src="assets/projects/farm/fv1.mp4"></video>
+          <div class="cert-item" style="border:none; background:transparent;">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7499790749237170176?collapsed=1" height="628" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
           </div>
-          <a href="assets/projects/farm/f7.webp" target="_blank" class="cert-item" title="View Image"><img decoding="async" src="assets/projects/farm/f7.webp" alt="Farm image 7"></a>
-          <div class="cert-item cert-item-video">
-            <video class="carousel-video" loop muted playsinline preload="auto" style="aspect-ratio: 9/16; height: 100%; object-fit: contain; pointer-events: none; outline: none; border: none;" src="assets/projects/farm/fv2.mp4"></video>
+          <div class="cert-item" style="border:none; background:transparent;">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7499790749237170176?collapsed=1" height="628" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+          </div>
+          <div class="cert-item" style="border:none; background:transparent;">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7499790749237170176?collapsed=1" height="628" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
           </div>
         </div>
       </div>
