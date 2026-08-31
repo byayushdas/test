@@ -165,11 +165,11 @@
   }
   section {
     position: relative;
-    min-height: calc(100vh - 72px);
+    min-height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2.5rem 3rem 2rem;
+    padding: 5rem 3rem;
     background: transparent;
     opacity: 1;
     pointer-events: auto;
@@ -177,6 +177,7 @@
     scroll-margin-top: 72px;
   }
   #s0 {
+    min-height: calc(95vh - 72px);
     justify-content: flex-start;
     padding-top: 8vh;
   }
@@ -1049,7 +1050,8 @@
     .nav-logo { font-size: 1.25rem; height: 2rem; min-width: 3.5rem; }
     #nav-gt1, #nav-gt2 { font-size: 1.25rem; }
     #nav-gooey-inner { min-width: 5.5rem; }
-    section { padding: 4rem 1.2rem 2rem; overflow: hidden; justify-content: center; }
+    section { padding: 4rem 1.2rem; min-height: auto; overflow: hidden; justify-content: center; }
+    #s0 { min-height: calc(90vh - 60px); }
     
 
     .landing-number { display: none; }
