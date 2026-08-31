@@ -233,10 +233,13 @@
 
   /* ══════════════ § 1  LANDING ══════════════ */
   .landing-eyebrow {
-    font-family: 'Space Grotesk', var(--sans);
-    font-size: 0.68rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.1em;
     color: #c97a10;
     margin-bottom: 0.9rem;
   }
@@ -1066,7 +1069,7 @@
     }
     .landing-eyebrow {
       margin-bottom: 0.4rem;
-      font-size: 0.68rem;
+      font-size: 0.7rem;
     }
     #gooey-wrap {
       height: 3rem;
@@ -1292,7 +1295,11 @@
     <div class="content" style="position:relative;z-index:1;">
       <div class="landing-inner">
         <div class="landing-left">
-          <div class="landing-eyebrow">SOFTWARE DEVELOPER/ENGINEER | KOLKATA, INDIA</div>
+          <div class="landing-eyebrow">
+            SOFTWARE DEVELOPER/ENGINEER <span style="margin:0 0.2rem">|</span> 
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            KOLKATA, INDIA
+          </div>
           <h1 class="landing-name">
             Ayush<br><em>Das</em>
           </h1>
