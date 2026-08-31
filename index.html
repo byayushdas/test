@@ -43,6 +43,8 @@
 
   html, body { min-height: 100%; }
   html { scroll-behavior: smooth; }
+  * { scrollbar-width: none; -ms-overflow-style: none; }
+  *::-webkit-scrollbar { display: none; }
 
   body {
     background-color: var(--paper);
@@ -231,16 +233,15 @@
 
   /* ══════════════ § 1  LANDING ══════════════ */
   .landing-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    font-family: 'Space Grotesk', var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     color: #c97a10;
     margin-bottom: 0.9rem;
   }
   [data-theme="dark"] .landing-eyebrow {
-    color: #EAB308;
-    text-shadow: 0 0 8px rgba(234, 179, 8, 0.6), 0 0 16px rgba(234, 179, 8, 0.4);
+    color: #ffc44a;
   }
   .landing-name {
     font-family: var(--serif);
@@ -1065,7 +1066,7 @@
     }
     .landing-eyebrow {
       margin-bottom: 0.4rem;
-      font-size: 0.6rem;
+      font-size: 0.68rem;
     }
     #gooey-wrap {
       height: 3rem;
@@ -1292,7 +1293,7 @@
     <div class="content" style="position:relative;z-index:1;">
       <div class="landing-inner">
         <div class="landing-left">
-          <div class="landing-eyebrow">Kolkata, India &nbsp;·&nbsp; Software Engineer</div>
+          <div class="landing-eyebrow">Software Developer/ Engineer . Kolkata, India</div>
           <h1 class="landing-name">
             Ayush<br><em>Das</em>
           </h1>
