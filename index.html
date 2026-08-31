@@ -155,26 +155,6 @@
   }
   [data-theme="dark"] .switch-thumb { background: #f0eeea; }
 
-  /* ══════════════ SECTION DOTS ══════════════ */
-  .section-dots {
-    position: fixed;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    z-index: 150;
-  }
-  .dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--border);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-  }
-  .dot.active { background: var(--ink); transform: scale(1.6); }
-
   /* ══════════════ SECTIONS ══════════════ */
   #stage {
     padding-top: 72px; /* nav height */
@@ -1063,7 +1043,7 @@
     #nav-gooey-inner { min-width: 5.5rem; }
     section { padding: 4rem 1.2rem 2rem; overflow: hidden; justify-content: center; }
     
-    .section-dots { display: none; }
+
     .landing-number { display: none; }
     
     .content { width: 100%; }
@@ -1296,9 +1276,6 @@
     </div>
   </div>
 </nav>
-
-<!-- SECTION DOTS -->
-<div class="section-dots" id="dots"></div>
 
 <canvas id="globalWaveBg"></canvas>
 
@@ -1781,20 +1758,6 @@
   const N = 6;
   let current = 0;
 
-  // ── DOTS ──────────────────────────────────────────────
-  const dotsEl = document.getElementById('dots');
-  for (let i = 0; i < N; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.addEventListener('click', () => {
-      const target = document.getElementById('s' + i);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-    dotsEl.appendChild(d);
-  }
-
   // ── INTERSECTION OBSERVER ─────────────────────────────
   const observerOptions = {
     root: null,
@@ -1808,10 +1771,6 @@
         const id = entry.target.getAttribute('id');
         current = parseInt(id.replace('s', ''));
         
-        // Update dots
-        document.querySelectorAll('.dot').forEach((d, i) => {
-          d.classList.toggle('active', i === current);
-        });
 
         // Trigger animations/actions based on section
         if (current === 2 && window.resetProjCarousel) {
