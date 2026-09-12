@@ -61,14 +61,49 @@
             font-size: 1rem;
         }
 
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0.5rem;
+        .switch-wrap {
+            display: inline-block;
         }
+        .switch-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: #e2e2e2;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+            transition: background 0.35s cubic-bezier(.4,0,.2,1);
+            flex-shrink: 0;
+        }
+        .switch-btn[aria-checked="true"] {
+            background: #1a1a1a;
+        }
+        [data-theme="dark"] .switch-btn[aria-checked="false"] {
+            background: #333;
+        }
+        [data-theme="dark"] .switch-btn[aria-checked="true"] {
+            background: #2a2a2a;
+        }
+        .switch-thumb {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            left: 2px;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1), background 0.3s;
+            will-change: transform;
+        }
+        .switch-btn[aria-checked="true"] .switch-thumb {
+            transform: translateX(20px);
+            background: #fde047;
+            box-shadow: 0 0 10px 2px rgba(253,224,71,0.55);
+        }
+        [data-theme="dark"] .switch-thumb { background: #f0eeea; }
 
         .main-content {
             display: grid;
@@ -121,10 +156,11 @@
                 <a href="#">Home</a>
                 <a href="#">About</a>
                 <a href="#">Projects</a>
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
+                <div class="switch-wrap" onclick="toggleTheme()">
+                    <button class="switch-btn" role="switch" aria-checked="true" aria-label="Toggle dark mode">
+                        <span class="switch-thumb"></span>
+                    </button>
+                </div>
             </nav>
         </header>
 
@@ -142,31 +178,20 @@
     </div>
 
     <script>
-        const html = document.documentElement;
-        const themeToggle = document.getElementById('theme-toggle');
-        const moonIcon = document.getElementById('moon-icon');
-        const sunIcon = document.getElementById('sun-icon');
-
-        // Check for saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const switchBtn = document.querySelector('.switch-btn');
+        if (switchBtn) {
+            switchBtn.setAttribute('aria-checked', savedTheme === 'dark' ? 'true' : 'false');
+        }
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
-        });
-
-        function setTheme(theme) {
-            html.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            
-            if (theme === 'dark') {
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
-            } else {
-                moonIcon.style.display = 'block';
-                sunIcon.style.display = 'none';
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const next = isDark ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            if (switchBtn) {
+                switchBtn.setAttribute('aria-checked', next === 'dark' ? 'true' : 'false');
             }
         }
     </script>
