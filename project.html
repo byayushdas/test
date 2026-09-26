@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Featured Projects</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --bg-color: #0f0f11;
+    --card-bg: #1a1a1c;
+    --text-primary: #ffffff;
+    --text-secondary: #9a9a9c;
+    --accent-red: #ff4747;
+    --accent-green: #37d67a;
+    --border-color: #2a2a2c;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 3rem;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .header-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .header-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    max-width: 1300px;
+  }
+
+  .project-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+  }
+
+  .card-banner {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .banner-1 { 
+    background: radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.4), transparent 40%), 
+                radial-gradient(circle at 90% 80%, rgba(0, 85, 255, 0.4), transparent 40%), 
+                #1e1428; 
+  }
+  .banner-2 { 
+    background: radial-gradient(circle at 50% 0%, rgba(0, 255, 255, 0.4), transparent 50%), 
+                radial-gradient(circle at 80% 100%, rgba(255, 0, 255, 0.4), transparent 50%), 
+                #112233; 
+  }
+  .banner-3 { 
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 0, 0.3), transparent 50%), 
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.4), transparent 50%), 
+                #2a1122; 
+  }
+
+  .mockup-window {
+    width: 85%;
+    height: 85%;
+    background: #000;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    position: relative;
+    bottom: -10px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
+    padding: 12px;
+    box-sizing: border-box;
+    border: 2px solid #333;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mockup-topbar {
+    height: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .mockup-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .mockup-dot:nth-child(1) { background: #ff5f56; }
+  .mockup-dot:nth-child(2) { background: #ffbd2e; }
+  .mockup-dot:nth-child(3) { background: #27c93f; }
+
+  .mockup-content {
+    background: #111;
+    border-radius: 6px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: 500;
+    font-size: 1.1rem;
+    border: 1px solid #222;
+  }
+
+  .card-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-links a {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    transition: color 0.2s;
+    text-decoration: none;
+  }
+
+  .project-links a:hover {
+    color: var(--text-primary);
+  }
+
+  .project-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .technologies-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .technologies-title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .tech-icons {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .tech-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .status-dot.building { background-color: var(--accent-red); box-shadow: 0 0 8px rgba(255, 71, 71, 0.6); }
+  .status-dot.operational { background-color: var(--accent-green); box-shadow: 0 0 8px rgba(55, 214, 122, 0.6); }
+
+  .view-details {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+  }
+
+  .view-details:hover {
+    color: var(--text-primary);
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <p class="header-subtitle">Featured</p>
+    <h1 class="header-title">Projects</h1>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Project 1: Seed2Shelf -->
+    <div class="project-card">
+      <div class="card-banner banner-1">
+        <div class="mockup-window">
+          <div class="mockup-topbar">
+            <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-content">Seed2Shelf Dashboard</div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <h2 class="project-title">Seed2Shelf</h2>
+          <div class="project-links">
+            <a href="#" title="Website"><i class="fa-solid fa-globe"></i></a>
+            <a href="https://github.com/byayushdas/Seed2Shelf.git" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+        <p class="project-description">An agricultural supply chain management system tracking the journey of seeds from farmers to final products on the shelf using transparent tracking.</p>
+        <div class="technologies-section">
+          <div class="technologies-title">Technologies</div>
+          <div class="tech-icons">
+            <div class="tech-icon" style="color: #61DAFB;" title="React"><i class="fa-brands fa-react"></i></div>
+            <div class="tech-icon" style="color: #68A063;" title="Node.js"><i class="fa-brands fa-node-js"></i></div>
+            <div class="tech-icon" style="color: #3178C6;" title="TypeScript">TS</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="status-badge">
+            <div class="status-dot building"></div>
+            Building
+          </div>
+          <a href="https://github.com/byayushdas/Seed2Shelf.git" target="_blank" class="view-details">View Details <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2: RoboticArm -->
+    <div class="project-card">
+      <div class="card-banner banner-2">
+        <div class="mockup-window">
+          <div class="mockup-topbar">
+            <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-content">Robotic Arm UI</div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <h2 class="project-title">RoboticArm</h2>
+          <div class="project-links">
+            <a href="#" title="Website"><i class="fa-solid fa-globe"></i></a>
+            <a href="https://github.com/byayushdas/RoboticArm" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+        <p class="project-description">A precise, automated robotic arm built with IoT integration for complex manufacturing tasks. Programmed to assist in delicate assembling processes with high efficiency.</p>
+        <div class="technologies-section">
+          <div class="technologies-title">Technologies</div>
+          <div class="tech-icons">
+            <div class="tech-icon" style="color: #00979D;" title="Arduino">A</div>
+            <div class="tech-icon" style="color: #00599C;" title="C++">C++</div>
+            <div class="tech-icon" style="color: #3776AB;" title="Python"><i class="fa-brands fa-python"></i></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="status-badge">
+            <div class="status-dot operational"></div>
+            All Systems Operational
+          </div>
+          <a href="https://github.com/byayushdas/RoboticArm" target="_blank" class="view-details">View Details <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3: SmartHealthCareMonitoringSystem -->
+    <div class="project-card">
+      <div class="card-banner banner-3">
+        <div class="mockup-window">
+          <div class="mockup-topbar">
+            <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-content">Health Monitoring</div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <h2 class="project-title">Smart Health Care</h2>
+          <div class="project-links">
+            <a href="#" title="Website"><i class="fa-solid fa-globe"></i></a>
+            <a href="https://github.com/byayushdas/SmartHealthCareMonitoringSystem" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+        <p class="project-description">A comprehensive AI and IoT-powered solution for early detection and continuous monitoring, using advanced sensors and automated alerting for healthcare professionals.</p>
+        <div class="technologies-section">
+          <div class="technologies-title">Technologies</div>
+          <div class="tech-icons">
+            <div class="tech-icon" style="color: #61DAFB;" title="React"><i class="fa-brands fa-react"></i></div>
+            <div class="tech-icon" style="color: #FFCA28;" title="Firebase"><i class="fa-solid fa-fire"></i></div>
+            <div class="tech-icon" style="color: #3776AB;" title="Python"><i class="fa-brands fa-python"></i></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="status-badge">
+            <div class="status-dot operational"></div>
+            All Systems Operational
+          </div>
+          <a href="https://github.com/byayushdas/SmartHealthCareMonitoringSystem" target="_blank" class="view-details">View Details <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
