@@ -491,6 +491,174 @@
     pointer-events: none;
     opacity: 0.5;
   }
+  /* ══════════════ § 1 HERO ══════════════ */
+  .hero-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 1rem;
+  }
+  @media (min-width: 768px) {
+    .hero-layout {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+  .hero-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 500px;
+  }
+  .hero-avatar {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+  }
+  .hero-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  .hero-name {
+    font-family: var(--sans);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  .hero-role {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    text-transform: uppercase;
+  }
+  .hero-location {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -0.5rem;
+  }
+  .hero-desc {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--mid);
+    margin: 0;
+  }
+  .hero-desc .highlight {
+    color: #3b82f6;
+  }
+  .hero-actions {
+    margin-top: 1rem;
+  }
+  .btn-resume {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid var(--mid);
+    border-radius: 8px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-resume:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .hero-social {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+  .hero-social a {
+    color: var(--mid);
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-social a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    background-color: #e5e7eb;
+    color: #111827;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .hero-social a::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(2px);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #e5e7eb transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    pointer-events: none;
+  }
+  .hero-social a:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  .hero-social a:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-2px);
+  }
+  .hero-social a:hover {
+    color: var(--ink);
+  }
+  .hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+  }
+  .hero-right img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    object-fit: cover;
+  }
 
   /* ══════════════ § 2  EDUCATION ══════════════ */
   .edu-grid {
@@ -655,42 +823,25 @@
 
   /* ══════════════ STAR BUTTON ══════════════ */
   .star-btn {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 5px;
-    border-radius: 9999px;
-    padding: 5px 13px;
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: underline;
     cursor: pointer;
-    background: transparent;
-    border: 1px solid var(--ink);
-    outline: none;
     color: var(--ink);
-    box-shadow: 0 0 8px rgba(0,0,0,0.2), 0 0 20px rgba(0,0,0,0.08);
-    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    transition: color 0.2s;
   }
   .star-btn:hover {
-    background: var(--ink);
-    color: var(--paper);
-    transform: translateY(-1px);
-    box-shadow: 0 0 12px rgba(0,0,0,0.35), 0 0 30px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.18);
+    color: var(--mid);
   }
   [data-theme="dark"] .star-btn {
-    border-color: rgba(255,255,255,0.85);
     color: #f0eeea;
-    box-shadow: 0 0 8px rgba(255,255,255,0.25), 0 0 20px rgba(255,255,255,0.1);
   }
   [data-theme="dark"] .star-btn:hover {
-    background: rgba(255,255,255,0.08);
     color: #ffffff;
-    box-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.2), 0 4px 16px rgba(255,255,255,0.1);
   }
   .text-dashed-link {
     font-family: var(--mono);
@@ -1435,6 +1586,58 @@
 
 <!-- STAGE -->
 <div id="stage">
+  <!-- ① HERO -->
+  <section id="s0">
+    <div class="content hero-layout">
+      <div class="hero-left">
+        <div class="hero-avatar">
+          <img src="assets/avatar.webp" alt="Avatar">
+        </div>
+        <h1 class="hero-name">Ayush Das</h1>
+        <div class="hero-role">SOFTWARE ENGINEER/DEVELOPER</div>
+        <div class="hero-location">
+          <svg class="pin-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          Kolkata, India
+        </div>
+        
+        <p class="hero-desc">
+          I build <span class="highlight">innovative digital solutions</span> and teach others to amplify their <span class="highlight">digital presence</span> through code, design, and content.
+        </p>
+
+        <div class="hero-actions">
+          <a href="https://drive.google.com/drive/folders/1vUKNfwjn6bc5LQ9J8lgOFSbaI0wp-fam?usp=drive_link" target="_blank" class="btn-resume">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Resume / CV
+          </a>
+        </div>
+
+        <div class="hero-social">
+          <!-- LinkedIn -->
+          <a href="#" data-tooltip="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+          <!-- GitHub -->
+          <a href="#" data-tooltip="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+          <!-- Leetcode -->
+          <a href="#" data-tooltip="LeetCode"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.396.702-1.863l2.82-2.836c.143-.143.346-.208.547-.179.202.029.377.143.475.311.117.202.083.454-.083.619l-2.585 2.6c-.234.234-.367.575-.367.93s.133.696.367.93l4.333 4.364c.234.234.575.367.93.367s.696-.133.93-.367l2.696-2.607c.18-.18.468-.204.673-.056.205.148.261.425.132.628-.01.015-.021.03-.034.045zm3.176-11.02l-4.332-4.364c-.467-.467-1.111-.662-1.823-.662s-1.357.195-1.824.662l-2.82 2.836c-.143.143-.346.208-.547.179-.202-.029-.377-.143-.475-.311-.117-.202-.083-.454.083-.619l2.585-2.6c.234-.234.367-.575.367-.93s-.133-.696-.367-.93l4.333-4.364c.234-.234.575-.367.93-.367s.696.133.93.367l2.697 2.607c.18.18.468.204.673.056.205-.148.261-.425.132-.628.01-.015.021-.03.034-.045l-2.696-2.607c-.467-.467-1.111-.662-1.823-.662zM7.324 16.536c-.11.11-.258.172-.414.172-.156 0-.304-.062-.414-.172-.11-.11-.172-.258-.172-.414 0-.156.062-.304.172-.414l6.586-6.586c.11-.11.258-.172.414-.172.156 0 .304.062.414.172.11.11.172.258.172.414 0 .156-.062.304-.172.414l-6.586 6.586z"/></svg></a>
+          <!-- X -->
+          <a href="#" data-tooltip="X (Twitter)"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <!-- Instagram -->
+          <a href="#" data-tooltip="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="assets/profile.webp" alt="Ayush Das">
+      </div>
+    </div>
+  </section>
 
   <!-- ② EDUCATION -->
   <section id="s1">
@@ -1482,7 +1685,7 @@
       </div>
       
       <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
-        <a href="education.html" class="show-all-btn">Show in Detail</a>
+        <a href="education.html" class="show-all-btn">View in detail</a>
       </div>
 
     </div>
@@ -1524,8 +1727,8 @@
                 Blockchain based agricultural supply chain transparency platform built for the Indian market.
               </div>
               <div class="proj-card-bottom">
-                <a class="star-btn" href="#" onclick="return false;">
-                  <span class="star-btn-text">Building</span>
+                <a class="star-btn" href="https://seed2shelf.vercel.app" target="_blank">
+                  <span class="star-btn-text">Website</span>
                 </a>
               </div>
               <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/seed.webp" alt="Seed2Shelf"></div>
@@ -1539,7 +1742,7 @@
               </div>
               <div class="proj-card-bottom">
                 <a class="star-btn" href="https://thegifting.vercel.app" target="_blank">
-                  <span class="star-btn-text">Website ↗</span>
+                  <span class="star-btn-text">Website</span>
                 </a>
               </div>
               <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" style="object-fit: contain; background: #fff;" src="assets/projects/gift.webp" alt="The Gifting Co."></div>
@@ -1567,8 +1770,8 @@
                 </span>
               </div>
               <div class="proj-card-bottom">
-                <a class="star-btn" href="project.html">
-                  <span class="star-btn-text">View ↗</span>
+                <a class="star-btn" href="proj.html">
+                  <span class="star-btn-text">View</span>
                 </a>
               </div>
               <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/Drone.webp" alt="Intelligent Farm Surveillance System"></div>
@@ -1590,7 +1793,7 @@
               <div class="proj-card-bottom">
                 <a class="star-btn" href="https://github.com/byayushdas/SmartHealthCareMonitoringSystem.git" target="_blank">
                   <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                  <span class="star-btn-text">View ↗</span>
+                  <span class="star-btn-text">View</span>
                 </a>
               </div>
               <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/health.webp" alt="Smart HealthCare Monitoring System"></div>
@@ -1605,7 +1808,7 @@
               <div class="proj-card-bottom">
                 <a class="star-btn" href="https://github.com/byayushdas/RoboticArm.git" target="_blank">
                   <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                  <span class="star-btn-text">View ↗</span>
+                  <span class="star-btn-text">View</span>
                 </a>
               </div>
               <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/arm.webp" alt="Robotic Arm"></div>
@@ -1614,7 +1817,7 @@
         </div>
       </div>
       <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
-        <a href="projects.html" class="show-all-btn">Show in Detail</a>
+        <a href="projects.html" class="show-all-btn">View in detail</a>
       </div>
     </div>
     <div class="mouse-scroll hidden" id="ms2">
@@ -1781,7 +1984,7 @@
         </div>
       </div>
       <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
-        <a href="events.html" class="show-all-btn">Show in Detail</a>
+        <a href="events.html" class="show-all-btn">View in detail</a>
       </div>
 
     </div>
