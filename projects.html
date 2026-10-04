@@ -9,7 +9,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Ayush Das | Timeline</title>
+<title>Ayush Das | Projects</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -593,316 +593,375 @@
     .section-heading { font-size: 2rem; }
     .detail-wrap { padding-top: 90px; }
   }
-
-  /* — Timeline layout — */
-  .timeline-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 1rem 0 2rem 1.5rem;
-  }
-  .timeline-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 7px;
-    width: 2px;
-    background: var(--border);
-  }
-  .timeline-item {
-    position: relative;
-    padding-bottom: 2rem;
-  }
-  .timeline-item:last-child {
-    padding-bottom: 0;
-  }
-  .timeline-marker {
-    position: absolute;
-    left: -1.5rem;
-    top: 0.2rem;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--paper);
-    border: 3px solid var(--border);
-    transform: translateX(-3px);
-    z-index: 2;
-  }
-  .timeline-marker.tier-gold { border-color: #ffc44a; box-shadow: 0 0 10px rgba(255,196,74,0.3); }
-  .timeline-marker.tier-silver { border-color: #94c4f9; box-shadow: 0 0 10px rgba(148,196,249,0.3); }
-  .timeline-marker.tier-finalist { border-color: #8fedb4; box-shadow: 0 0 10px rgba(143,237,180,0.3); }
-
-  .timeline-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .timeline-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.2rem;
-  }
-  
-  /* — Achievement name — */
-  .hack-name {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-  }
-  .hack-sub {
-    font-family: 'Space Grotesk', var(--sans);
-    font-size: 0.75rem;
-    color: var(--mid);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    opacity: 0.85;
-  }
-  .hack-link {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: #0077B5;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    text-transform: uppercase;
-    margin-top: 0.25rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: opacity 0.2s, color 0.2s;
-  }
-  .hack-link:hover {
-    opacity: 0.7;
-  }
-
-  /* — Result badge — */
-  .hack-place {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Space Grotesk', var(--sans);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 0.25rem 0.6rem;
-    border-radius: 20px;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    text-transform: uppercase;
-  }
-  /* Gold tier — bright amber */
-  .hack-place.tier-gold {
-    color: #e6a72e;
-    background: rgba(230,167,46,0.12);
-    border-color: rgba(230,167,46,0.4);
-  }
-  [data-theme="dark"] .hack-place.tier-gold {
-    color: #ffc44a;
-    background: rgba(255,196,74,0.15);
-    border-color: rgba(255,196,74,0.4);
-  }
-  /* Silver tier — bright blue */
-  .hack-place.tier-silver {
-    color: #4a8cdb;
-    background: rgba(74,140,219,0.12);
-    border-color: rgba(74,140,219,0.4);
-  }
-  [data-theme="dark"] .hack-place.tier-silver {
-    color: #94c4f9;
-    background: rgba(148,196,249,0.15);
-    border-color: rgba(148,196,249,0.4);
-  }
-  /* Finalist tier — bright mint */
-  .hack-place.tier-finalist {
-    color: #42a86f;
-    background: rgba(66,168,111,0.12);
-    border-color: rgba(66,168,111,0.4);
-  }
-  [data-theme="dark"] .hack-place.tier-finalist {
-    color: #8fedb4;
-    background: rgba(143,237,180,0.15);
-    border-color: rgba(143,237,180,0.4);
-  }
-
-  /* leading icon dot */
-  .place-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: inline-block;
-  }
-  .place-dot.gold     { background: #e6a72e; }
-  .place-dot.silver   { background: #4a8cdb; }
-  .place-dot.finalist { background: #42a86f; }
-  [data-theme="dark"] .place-dot.gold     { background: #ffc44a; }
-  [data-theme="dark"] .place-dot.silver   { background: #94c4f9; }
-  [data-theme="dark"] .place-dot.finalist { background: #8fedb4; }
-
-  /* — Year stamp — */
-  .hack-year {
-    font-family: 'Space Grotesk', var(--mono);
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    opacity: 0.9;
-  }
-
-  
 </style>
 <div class="detail-wrap">
   <div class="content" style="position:relative;z-index:1;">
     
-    <h1 class="section-heading" style="text-align: center; margin-bottom: 4rem; margin-top: 1rem;">Connecting dots</h1>
+    <h1 class="section-heading" style="text-align: center; margin-bottom: 4rem; margin-top: 1rem;">Projects</h1>
 
 
-    <div class="timeline-container">
+    
+    <style>
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-bottom: 4rem;
+        /* Padding matches the content container for consistency */
+        padding: 0;
+      }
+      @media (max-width: 768px) {
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Ensure proj-card expands to fill grid cell */
+      .projects-grid .proj-card {
+        width: 100% !important;
+        min-width: 0;
+        margin: 0;
+        flex: 1 1 auto;
+      }
+    /* ══════════════ § 3  PROJECTS CAROUSEL ══════════════ */
+  .proj-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    border-top: 1px solid var(--border);
+    margin: 0 auto;
+    padding: 0 48px; /* Adds space for navigation arrows and reduces card size */
+    box-sizing: border-box;
+  }
+  @media (max-width: 768px) {
+    .proj-carousel { padding: 0 44px; } /* Ensures arrows don't overlap on mobile */
+  }
+  .proj-carousel-track-wrap {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    width: 100%;
+    padding: 24px 0;
+  }
+  .proj-carousel-track-wrap::-webkit-scrollbar {
+    display: none; /* Chrome */
+  }
+  .proj-carousel-track {
+    display: flex;
+    gap: 16px;
+  }
+  .proj-card {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .proj-card:hover {
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+  }
+  [data-theme="dark"] .proj-card:hover {
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+  }
+  @media (min-width: 768px) {
+    .proj-card { flex: 0 0 calc(50% - 8px); }
+  }
+  @media (min-width: 1024px) {
+    .proj-card { flex: 0 0 380px; width: 380px; }
+    
+    .proj-carousel-track-wrap {
+      overflow: hidden;
+      scroll-snap-type: none;
+      mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+      -webkit-mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+    }
+  }
+  
+  .proj-clone {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .proj-clone {
+      display: flex;
+    }
+  }
+  
+  .proj-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .project-title {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.3;
+  }
+  .proj-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+  }
+  @media (max-width: 680px) {
+  }
 
-            <div class="timeline-item">
-              <div class="timeline-marker tier-silver"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">September, 2026</div>
-                  <div class="hack-place tier-silver"><span class="place-dot silver"></span>Regionals</div>
-                </div>
-                <div class="hack-name">SEWA FIRST INNOVATION CHALLENGE</div>
-                <div class="hack-sub">IIM Calcutta, Kolkata</div>
-                <a class="hack-link" href="https://lnkd.in/p/dxF7Msm7" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
-                </a>
-              </div>
-            </div>
+  /* ══════════════ STAR BUTTON ══════════════ */
+  .star-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 9999px;
+    padding: 5px 13px;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--ink);
+    outline: none;
+    color: var(--ink);
+    box-shadow: 0 0 8px rgba(0,0,0,0.2), 0 0 20px rgba(0,0,0,0.08);
+    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .star-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(0,0,0,0.35), 0 0 30px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.18);
+  }
+  [data-theme="dark"] .star-btn {
+    border-color: rgba(255,255,255,0.85);
+    color: #f0eeea;
+    box-shadow: 0 0 8px rgba(255,255,255,0.25), 0 0 20px rgba(255,255,255,0.1);
+  }
+  [data-theme="dark"] .star-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.2), 0 4px 16px rgba(255,255,255,0.1);
+  }
+  .text-dashed-link {
+    font-family: var(--mono);
+    color: #0077B5;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .text-dashed-link:hover {
+    opacity: 0.7;
+  }
+  [data-theme="dark"] .text-dashed-link {
+    color: #38bdf8;
+  }
 
-            <div class="timeline-item">
-              <div class="timeline-marker tier-silver"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">August, 2026</div>
-                  <div class="hack-place tier-silver"><span class="place-dot silver"></span>Finalist</div>
-                </div>
-                <div class="hack-name">Pragya JU 4.0</div>
-                <div class="hack-sub">Jadavpur University, Kolkata</div>
-                <a class="hack-link" href="https://lnkd.in/p/dN4VMBYw" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
-                </a>
-              </div>
-            </div>
+  .proj-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 20;
+    padding: 0;
+  }
+  .proj-nav-arrow:hover {
+    background: var(--border);
+  }
+  .proj-nav-arrow:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  [data-theme="dark"] .proj-nav-arrow:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  .proj-nav-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+  .proj-nav-arrow.left { left: 4px; }
+  .proj-nav-arrow.right { right: 4px; }
+  @media (min-width: 768px) {
+    .proj-nav-arrow.left { left: 6px; }
+    .proj-nav-arrow.right { right: 6px; }
+  }
+  @media (max-width: 680px) {
+    .proj-nav-arrow {
+      top: 40%;
+    }
+  }
+  .proj-card-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .proj-card-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-            <div class="timeline-item">
-              <div class="timeline-marker tier-silver"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">August, 2026</div>
-                  <div class="hack-place tier-silver"><span class="place-dot silver"></span>Finalist</div>
-                </div>
-                <div class="hack-name">UDAAN 2.0</div>
-                <div class="hack-sub">Heritage Institute of Technology, Kolkata</div>
-                <a class="hack-link" href="https://lnkd.in/p/d8RDjTx7" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
-                </a>
-              </div>
-            </div>
+  /* ══════════════ PROJECT AWARDS ══════════════ */
+  .proj-awards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.1rem;
+  }
+  .proj-award-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Space Grotesk', var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #c97a10;
+    width: fit-content;
+    line-height: 1.3;
+  }
+  [data-theme="dark"] .proj-award-item {
+    color: #ffc44a;
+  }
+  .proj-award-item .award-medal {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex-shrink: 0;
+  }
 
-            <div class="timeline-item">
-              <div class="timeline-marker tier-finalist"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">January, 2026</div>
-                  <div class="hack-place tier-finalist"><span class="place-dot finalist"></span>Attended</div>
-                </div>
-                <div class="hack-name">47th Annual General Meeting</div>
-                <div class="hack-sub">IEEE Kolkata Section</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/tanima-bhowmik-463aa135_iem-robotics-ieeekolkatasection-ugcPost-7417973735795646464-wZlB?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
+  </style>
+    <div class="projects-grid">
+<div class="proj-card software">
+              <div class="proj-card-top">
+                <div class="project-title">Seed2Shelf</div>
+              </div>
+              <div class="project-desc" style="font-size: 0.85rem; color: var(--mid); line-height: 1.5;">
+                Blockchain based agricultural supply chain transparency platform built for the Indian market.
+              </div>
+              <div class="proj-card-bottom">
+                <a class="star-btn" href="#" onclick="return false;">
+                  <span class="star-btn-text">Building</span>
                 </a>
               </div>
+              <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/seed.webp" alt="Seed2Shelf"></div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-marker tier-silver"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">August, 2025</div>
-                  <div class="hack-place tier-silver"><span class="place-dot silver"></span>Finalist</div>
-                </div>
-                <div class="hack-name">IEEE YESIST12 Maker Track</div>
-                <div class="hack-sub">UKM, Malaysia</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/byayushdas_from-august-2324-2025-i-had-the-privilege-activity-7366549266749632516-7Yvu?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
+<div class="proj-card software">
+              <div class="proj-card-top">
+                <div class="project-title">The Gifting Co.</div>
+              </div>
+              <div class="project-desc" style="font-size: 0.85rem; color: var(--mid); line-height: 1.5;">
+                An Online Platform to send Digital Gifts to your Loved Ones.
+              </div>
+              <div class="proj-card-bottom">
+                <a class="star-btn" href="https://thegifting.vercel.app" target="_blank">
+                  <span class="star-btn-text">Website ↗</span>
                 </a>
               </div>
+              <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" style="object-fit: contain; background: #fff;" src="assets/projects/gift.webp" alt="The Gifting Co."></div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-marker tier-silver"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">August, 2025</div>
-                  <div class="hack-place tier-silver"><span class="place-dot silver"></span>Runners-Up</div>
-                </div>
-                <div class="hack-name">IEEE Robotics Competition</div>
-                <div class="hack-sub">JIS University, Kolkata</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/byayushdas_proud-to-share-that-our-team-aerzo-secured-activity-7367644589110738945-FXe3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
+<div class="proj-card hardware">
+              <div class="proj-card-top">
+                <div class="project-title">Intelligent Farm Surveillance System</div>
+              </div>
+              <div class="proj-awards">
+                <span class="proj-award-item">
+                  <svg class="award-medal" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 1.5 2.8-.5.9 2.7 2.6 1.1-.4 2.8 1.9 2.1-1.4 2.5.5 2.8-2.6 1-1 2.7-2.8-.4L12 19l-2.4-1.5-2.8.5-.9-2.7-2.6-1.1.4-2.8-1.9-2.1 1.4-2.5-.5-2.8 2.6-1 1-2.7 2.8.4L12 2zm0 4.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                    <path d="M6 16.5l-2 7 4.5-2.5 2.5 1.5V18a8.5 8.5 0 0 1-5-1.5z"/>
+                    <path d="M18 16.5a8.5 8.5 0 0 1-5 1.5v4.5l2.5-1.5L20 23.5l-2-7z"/>
+                  </svg>
+                  IEEE YESIST12 MakerFair Track Finalist, Malaysia
+                </span>
+                <span class="proj-award-item">
+                  <svg class="award-medal" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 1.5 2.8-.5.9 2.7 2.6 1.1-.4 2.8 1.9 2.1-1.4 2.5.5 2.8-2.6 1-1 2.7-2.8-.4L12 19l-2.4-1.5-2.8.5-.9-2.7-2.6-1.1.4-2.8-1.9-2.1 1.4-2.5-.5-2.8 2.6-1 1-2.7 2.8.4L12 2zm0 4.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                    <path d="M6 16.5l-2 7 4.5-2.5 2.5 1.5V18a8.5 8.5 0 0 1-5-1.5z"/>
+                    <path d="M18 16.5a8.5 8.5 0 0 1-5 1.5v4.5l2.5-1.5L20 23.5l-2-7z"/>
+                  </svg>
+                  IEEE Robotics Competition Second Runners&#8209;Up, Kolkata
+                </span>
+              </div>
+              <div class="proj-card-bottom">
+                <a class="star-btn" href="project.html">
+                  <span class="star-btn-text">View ↗</span>
                 </a>
               </div>
+              <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/Drone.webp" alt="Intelligent Farm Surveillance System"></div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-marker tier-gold"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">June, 2025</div>
-                  <div class="hack-place tier-gold"><span class="place-dot gold"></span>Winner</div>
-                </div>
-                <div class="hack-name">IEEE YP Dataport Hackathon</div>
-                <div class="hack-sub">NUS, Singapore</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/centre-of-excellence-for-advanced-communication-intelligent-computing_global-recognition-for-innovation-in-sensor-ugcPost-7353091722274312192-bwN-?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
+<div class="proj-card hardware">
+              <div class="proj-card-top">
+                <div class="project-title">Smart HealthCare Monitoring System</div>
+              </div>         
+              <div class="proj-awards">
+                <span class="proj-award-item">
+                  <svg class="award-medal" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 1.5 2.8-.5.9 2.7 2.6 1.1-.4 2.8 1.9 2.1-1.4 2.5.5 2.8-2.6 1-1 2.7-2.8-.4L12 19l-2.4-1.5-2.8.5-.9-2.7-2.6-1.1.4-2.8-1.9-2.1 1.4-2.5-.5-2.8 2.6-1 1-2.7 2.8.4L12 2zm0 4.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                    <path d="M6 16.5l-2 7 4.5-2.5 2.5 1.5V18a8.5 8.5 0 0 1-5-1.5z"/>
+                    <path d="M18 16.5a8.5 8.5 0 0 1-5 1.5v4.5l2.5-1.5L20 23.5l-2-7z"/>
+                  </svg>
+                  IEEE YP Dataport Hackathon Winner, Singapore
+                </span>
+              </div>
+              <div class="proj-card-bottom">
+                <a class="star-btn" href="https://github.com/byayushdas/SmartHealthCareMonitoringSystem.git" target="_blank">
+                  <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  <span class="star-btn-text">View ↗</span>
                 </a>
               </div>
+              <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/health.webp" alt="Smart HealthCare Monitoring System"></div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-marker tier-finalist"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">May, 2025</div>
-                  <div class="hack-place tier-finalist"><span class="place-dot finalist"></span>Attended</div>
-                </div>
-                <div class="hack-name">ICELTS OCEANIA, ICAELS OCEANIA, AIMBIG OCEANIA Conferences</div>
-                <div class="hack-sub">UNSW, Australia</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/byayushdas_attended-the-icelts-oceania-2025-icaels-activity-7332765370681864193-dxlb?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
+<div class="proj-card hardware">
+              <div class="proj-card-top">
+                <div class="project-title">Robotic Arm</div>
+              </div>
+              <div class="project-desc" style="font-size: 0.85rem; color: var(--mid); line-height: 1.5;">
+                A 5-degree-of-freedom Robotic Arm built with an ESP8266 microcontroller, controlled wirelessly via a web interface using the MQTT protocol.
+              </div>
+              <div class="proj-card-bottom">
+                <a class="star-btn" href="https://github.com/byayushdas/RoboticArm.git" target="_blank">
+                  <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  <span class="star-btn-text">View ↗</span>
                 </a>
               </div>
+              <div class="proj-card-img-wrap"><img decoding="async" class="proj-card-img" src="assets/projects/arm.webp" alt="Robotic Arm"></div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-marker tier-finalist"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="hack-year">January, 2025</div>
-                  <div class="hack-place tier-finalist"><span class="place-dot finalist"></span>Attended</div>
-                </div>
-                <div class="hack-name">Kshitij Annual Techno Management Fest</div>
-                <div class="hack-sub">IIT Kharagpur</div>
-                <a class="hack-link" href="https://www.linkedin.com/posts/byayushdas_kshitij25-iitkgp-activity-7287915095320387584-sXAA?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE8cYNkBBhO5Cfo8XnB4N7BbTEaNn0Q7pBE" target="_blank">
-                  <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><rect x="2" y="2" width="20" height="20" fill="#ffffff"/><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  VIEW ↗
-                </a>
-              </div>
-            </div>
+    </div>
+    
 
-          </div>
   </div>
 </div>
 
