@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "cropType": "Organic Toor Dal",
+    "weightKg": 500,
+    "gpsCoordinates": "18.5204° N, 73.8567° E",
+    "farmer": {
+      "address": "0x1234567890abcdef1234567890abcdef12345678",
+      "name": "Ramesh Patil",
+      "timestamp": 1698750000,
+      "pricePerKg": 60
+    },
+    "processor": {
+      "address": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "name": "AgriPro Processors Ltd",
+      "timestamp": 1698836400,
+      "pricePerKg": 85,
+      "remarks": "Cleaned and sorted. Moisture < 10%"
+    },
+    "distributor": {
+      "address": "0x7890abcdef1234567890abcdef1234567890abcd",
+      "name": "MahaTrans Logistics",
+      "timestamp": 1698922800,
+      "pricePerKg": 100,
+      "remarks": "Transported via Cold Chain Truck MH12AB1234"
+    },
+    "retailer": {
+      "address": "0xdef1234567890abcdef1234567890abcdef12345",
+      "name": "FreshMart Supermarket",
+      "timestamp": 1699009200,
+      "pricePerKg": 140,
+      "remarks": "Received in good condition. Packaged for retail."
+    },
+    "status": "Delivered"
+  },
+  {
+    "id": 2,
+    "cropType": "Basmati Rice",
+    "weightKg": 1000,
+    "gpsCoordinates": "30.3165° N, 78.0322° E",
+    "farmer": {
+      "address": "0x1111111111111111111111111111111111111111",
+      "name": "Kuldeep Singh",
+      "timestamp": 1699100000,
+      "pricePerKg": 45
+    },
+    "processor": {
+      "address": "0x2222222222222222222222222222222222222222",
+      "name": "Northern Mills",
+      "timestamp": 1699186400,
+      "pricePerKg": 70,
+      "remarks": "Milled and polished. Premium grade."
+    },
+    "distributor": null,
+    "retailer": null,
+    "status": "At Processor"
+  }
+]
