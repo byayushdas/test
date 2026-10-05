@@ -10,7 +10,7 @@ const DistributorBatch = require('../models/Distributor');
 const User = require('../models/User');
 
 // Central checkout route: Deduct inventory, create POs, Transactions, and Notifications
-router.post('/checkout', async (req, res) => {
+router.post('/checkout', async (req, res, next) => {
   console.log('--- /api/v1/orders/checkout CALLED ---');
   console.log('req.body:', req.body);
   try {
@@ -133,12 +133,12 @@ router.post('/checkout', async (req, res) => {
     return res.json({ success: true, message: 'Checkout completed successfully', orderNumbers });
   } catch (err) {
     console.error('Checkout error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // Get orders for a user (either as buyer or seller)
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { userId, role } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -150,12 +150,12 @@ router.get('/', async (req, res) => {
 
     return res.json({ success: true, data: orders });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Server error' });
+    return handleDbError(err, res);
   }
 });
 
 // Update order status (Accept, Dispatch, Deliver)
-router.put('/:id/status', async (req, res) => {
+router.put('/:id/status', async (req, res, next) => {
   try {
     const { status } = req.body;
     const order = await PurchaseOrder.findById(req.params.id);
@@ -232,7 +232,7 @@ router.put('/:id/status', async (req, res) => {
     return res.json({ success: true, data: order });
   } catch (err) {
     console.error('Update order status error:', err);
-    return res.status(500).json({ success: false, message: 'Server error' });
+    return handleDbError(err, res);
   }
 });
 

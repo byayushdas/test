@@ -2,60 +2,55 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const Razorpay = require('razorpay');
+const prisma = require('../utils/prisma');
 
-const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || 'rzp_test_TAwi9UQj2Q7wP5';
-const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || 'j41TrOzQZEd9WL9Mmu6oYahb';
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 
 let razorpayInstance = null;
-try {
-  razorpayInstance = new Razorpay({
-    key_id: RAZORPAY_KEY_ID,
-    key_secret: RAZORPAY_KEY_SECRET,
-  });
-} catch (err) {
-  console.warn('Razorpay SDK initialization warning:', err.message);
+if (RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET) {
+  try {
+    razorpayInstance = new Razorpay({
+      key_id: RAZORPAY_KEY_ID,
+      key_secret: RAZORPAY_KEY_SECRET,
+    });
+  } catch (err) {
+    console.error('Razorpay SDK initialization error:', err.message);
+  }
+} else {
+  console.warn('Razorpay keys are missing from environment variables.');
 }
 
 // POST /api/payments/create-order
-router.post('/create-order', async (req, res) => {
+router.post('/create-order', async (req, res, next) => {
   try {
     const { amount, currency = 'INR', receipt } = req.body;
     if (!amount || amount <= 0) {
       return res.status(400).json({ success: false, message: 'Valid amount is required' });
     }
 
-    const amountInPaisa = Math.round(parseFloat(amount) * 100);
-
-    if (razorpayInstance) {
-      const options = {
-        amount: amountInPaisa,
-        currency,
-        receipt: receipt || `receipt_${Date.now()}`,
-        payment_capture: 1,
-      };
-
-      const order = await razorpayInstance.orders.create(options);
-      return res.json({
-        success: true,
-        id: order.id,
-        orderId: order.id,
-        key: RAZORPAY_KEY_ID,
-        keyId: RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-      });
+    if (!razorpayInstance) {
+      return next(err);
     }
 
-    // Fallback if Razorpay SDK not initialized
-    const fallbackOrderId = `order_${Date.now()}`;
-    return res.json({
-      success: true,
-      id: fallbackOrderId,
-      orderId: fallbackOrderId,
-      key: RAZORPAY_KEY_ID,
-      keyId: RAZORPAY_KEY_ID,
+    const amountInPaisa = Math.round(parseFloat(amount) * 100);
+
+    const options = {
       amount: amountInPaisa,
       currency,
+      receipt: receipt || `receipt_${Date.now()}`,
+      payment_capture: 1,
+    };
+
+    const order = await razorpayInstance.orders.create(options);
+    return res.json({
+      success: true,
+      id: order.id,
+      orderId: order.id,
+      key: RAZORPAY_KEY_ID,
+      keyId: RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency: order.currency,
     });
   } catch (err) {
     console.error('Create Razorpay Order Error:', err);
@@ -67,7 +62,7 @@ router.post('/create-order', async (req, res) => {
 });
 
 // POST /api/payments/verify
-router.post('/verify', async (req, res) => {
+router.post('/verify', async (req, res, next) => {
   try {
     const {
       razorpay_order_id,
@@ -85,29 +80,25 @@ router.post('/verify', async (req, res) => {
     const paymentId = razorpay_payment_id || razorpayPaymentId;
     const signature = razorpay_signature || razorpaySignature;
 
-    if (!paymentId) {
-      return res.status(400).json({ success: false, message: 'Payment ID is required for verification' });
+    if (!paymentId || !orderId || !signature) {
+      return res.status(400).json({ success: false, message: 'Incomplete payment verification data' });
     }
 
-    let isSignatureValid = false;
-
-    if (orderId && signature && RAZORPAY_KEY_SECRET) {
-      const body = orderId + '|' + paymentId;
-      const expectedSignature = crypto
-        .createHmac('sha256', RAZORPAY_KEY_SECRET)
-        .update(body.toString())
-        .digest('hex');
-
-      isSignatureValid = expectedSignature === signature;
-    } else {
-      // In test mode, if order was test generated
-      isSignatureValid = true;
+    if (!RAZORPAY_KEY_SECRET) {
+       return next(err);
     }
 
-    if (!isSignatureValid) {
+    const body = orderId + '|' + paymentId;
+    const expectedSignature = crypto
+      .createHmac('sha256', RAZORPAY_KEY_SECRET)
+      .update(body.toString())
+      .digest('hex');
+
+    if (expectedSignature !== signature) {
       return res.status(400).json({ success: false, message: 'Invalid payment signature' });
     }
 
+    // Preserve the mock orderNumber structure for frontend compatibility since orders.js handles the actual DB insertion
     const orderNumber = `ORD-2026-${Math.floor(10000 + Math.random() * 90000)}`;
 
     return res.json({

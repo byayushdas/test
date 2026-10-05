@@ -1,7 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import dbConnect from "../../../lib/db";
-import User from "../../../models/User";
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -19,21 +17,20 @@ export const authOptions: NextAuthOptions = {
 
         const normalizedEmail = credentials.email.trim().toLowerCase();
 
-        await dbConnect();
-        const user = await User.findOne({ email: normalizedEmail });
+        const BACKEND_URL = process.env.EXPRESS_BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+        const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+          method: 'POST',
+          body: JSON.stringify({ email: normalizedEmail, password: credentials.password }),
+          headers: { "Content-Type": "application/json" }
+        });
 
-        if (!user || !user.password) {
-          throw new Error("Invalid credentials");
+        const data = await res.json();
+
+        if (!res.ok || !data.user) {
+          throw new Error(data.message || "Invalid credentials");
         }
 
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isCorrectPassword) {
-            throw new Error("Invalid credentials");
-        }
+        const user = data.user;
 
         let farmerId = user.role === 'FARMER' ? user.uniqueId : undefined;
         let processorId = user.role === 'PROCESSOR' ? user.uniqueId : undefined;

@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
@@ -13,11 +12,24 @@ const paymentRoutes = require('./routes/payments');
 const orderRoutes = require('./routes/orders');
 const walletRoutes = require('./routes/wallet');
 const notificationRoutes = require('./routes/notifications');
+const { handleDbError } = require('./utils/errorHandler');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  : ['http://localhost:3000', 'http://localhost:3001'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' })); // increased limit for base64 images
 
 // Auth, Profile & Payments routes
@@ -38,16 +50,22 @@ app.use('/api/v1/notifications', notificationRoutes);
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
 
-// Database Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB Atlas');
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
+const { startNotificationCleanup } = require('./utils/cleanup');
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  return handleDbError(err, res);
+});
+
+const PORT = process.env.PORT || 5000;
+// Only listen if not running in test mode
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    // Start background tasks
+    startNotificationCleanup();
   });
+}
+
+module.exports = app;
 

@@ -5,7 +5,7 @@ const PurchaseOrder = require('../models/PurchaseOrder');
 const Razorpay = require('razorpay');
 
 // GET /api/v1/wallet/transactions?userId=
-router.get('/transactions', async (req, res) => {
+router.get('/transactions', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -54,7 +54,7 @@ router.get('/transactions', async (req, res) => {
     return res.json({ success: true, data: txs });
   } catch (err) {
     console.error('Fetch transactions error:', err);
-    return res.status(500).json({ success: false, message: 'Server error' });
+    return handleDbError(err, res);
   }
 });
 

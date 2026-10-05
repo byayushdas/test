@@ -1,105 +1,165 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const prisma = require('../utils/prisma');
 
 // GET Profile
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
+    const id = req.params.id;
     let user;
-    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-      user = await User.findById(req.params.id).select('-password');
+    
+    // Check if it's a cuid/uuid vs roleId
+    if (id.startsWith('cuid') || id.length > 20) {
+      user = await prisma.user.findUnique({
+        where: { id },
+        include: { farmerProfile: true, processorProfile: true, distributorProfile: true, retailerProfile: true, kycDetails: true, bankDetails: true }
+      });
     } else {
-      user = await User.findOne({ roleId: req.params.id }).select('-password');
+      user = await prisma.user.findUnique({
+        where: { roleId: id },
+        include: { farmerProfile: true, processorProfile: true, distributorProfile: true, retailerProfile: true, kycDetails: true, bankDetails: true }
+      });
     }
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     
+    // Omit password
+    const { password, ...userWithoutPassword } = user;
+    
     return res.status(200).json({
       success: true,
-      data: user.toObject()
+      data: userWithoutPassword
     });
   } catch (error) {
-    console.error("GET profile error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return next(error);
   }
 });
 
 // PUT Profile (Update)
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const id = req.params.id;
     const updateData = req.body;
     
     let user;
-    if (mongoose.Types.ObjectId.isValid(userId)) {
-      user = await User.findById(userId);
+    if (id.startsWith('cuid') || id.length > 20) {
+      user = await prisma.user.findUnique({ where: { id } });
     } else {
-      user = await User.findOne({ roleId: userId });
+      user = await prisma.user.findUnique({ where: { roleId: id } });
     }
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Sanitize: strip raw base64 data URLs (only keep proper https:// URLs or empty strings)
-    // Raw base64 strings can reach several MB and cause MongoDB document size overflow
     const sanitizeImageField = (val) => {
       if (typeof val === 'string' && val.startsWith('data:')) return '';
       return val;
     };
 
-    for (const key in updateData) {
-      if (key !== '_id' && key !== 'role' && key !== 'email' && key !== 'uniqueId') {
-        if (typeof updateData[key] === 'object' && updateData[key] !== null && !Array.isArray(updateData[key])) {
-          // Sanitize image fields inside nested objects
-          const sanitized = { ...updateData[key] };
-          for (const subKey in sanitized) {
-            if (typeof sanitized[subKey] === 'string' && sanitized[subKey].startsWith('data:')) {
-              sanitized[subKey] = '';
-            }
-          }
-          let existingData = user.get(key) || {};
-          if (typeof existingData.toObject === 'function') {
-            existingData = existingData.toObject();
-          }
-          user.set(key, { ...existingData, ...sanitized });
-          user.markModified(key); // Required: Mongoose won't detect nested object changes without this
-        } else {
-          // Sanitize top-level image fields
-          user.set(key, typeof updateData[key] === 'string' ? sanitizeImageField(updateData[key]) : updateData[key]);
+    // Prepare update payload
+    const userUpdate = {};
+    const profileUpdate = {};
+    const kycUpdate = {};
+    const bankUpdate = {};
+
+    for (const [key, value] of Object.entries(updateData)) {
+      if (['id', 'role', 'email', 'uniqueId', 'password'].includes(key)) continue;
+
+      if (key === 'kycDetails' && typeof value === 'object') {
+        for (const [k, v] of Object.entries(value)) {
+          kycUpdate[k] = typeof v === 'string' ? sanitizeImageField(v) : v;
         }
+      } else if (key === 'bankDetails' && typeof value === 'object') {
+        for (const [k, v] of Object.entries(value)) {
+          bankUpdate[k] = typeof v === 'string' ? sanitizeImageField(v) : v;
+        }
+      } else if (key === 'farmerProfile' || key === 'farmDetails') {
+        for (const [k, v] of Object.entries(value)) {
+          profileUpdate[k] = typeof v === 'string' ? sanitizeImageField(v) : v;
+        }
+      } else {
+        userUpdate[key] = typeof value === 'string' ? sanitizeImageField(value) : value;
       }
     }
 
-    // Also clear any existing stored base64 blobs from the document itself
-    if (user.profileImage && user.profileImage.startsWith('data:')) {
-      user.profileImage = '';
-      user.markModified('profileImage');
-    }
-    if (user.kycDetails) {
-      let kycObj = user.kycDetails;
-      if (typeof kycObj.toObject === 'function') kycObj = kycObj.toObject();
-      let changed = false;
-      if (kycObj.aadhaarFront && kycObj.aadhaarFront.startsWith('data:')) { kycObj.aadhaarFront = ''; changed = true; }
-      if (kycObj.aadhaarBack && kycObj.aadhaarBack.startsWith('data:')) { kycObj.aadhaarBack = ''; changed = true; }
-      if (changed) { user.set('kycDetails', kycObj); user.markModified('kycDetails'); }
+    // Force clear base64 from db
+    if (userUpdate.profileImage && userUpdate.profileImage.startsWith('data:')) {
+      userUpdate.profileImage = '';
     }
 
-    user.updatedAt = Date.now();
-    await user.save();
+    const transactionTasks = [];
+
+    // Update base user
+    transactionTasks.push(
+      prisma.user.update({
+        where: { id: user.id },
+        data: userUpdate
+      })
+    );
+
+    // Update specific profile
+    if (Object.keys(profileUpdate).length > 0) {
+      if (user.role === 'FARMER') {
+        transactionTasks.push(prisma.farmerProfile.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id, ...profileUpdate },
+          update: profileUpdate
+        }));
+      } else if (user.role === 'PROCESSOR') {
+        transactionTasks.push(prisma.processorProfile.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id, ...profileUpdate },
+          update: profileUpdate
+        }));
+      } else if (user.role === 'DISTRIBUTOR') {
+        transactionTasks.push(prisma.distributorProfile.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id, ...profileUpdate },
+          update: profileUpdate
+        }));
+      } else if (user.role === 'RETAILER') {
+        transactionTasks.push(prisma.retailerProfile.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id, ...profileUpdate },
+          update: profileUpdate
+        }));
+      }
+    }
+
+    if (Object.keys(kycUpdate).length > 0) {
+      transactionTasks.push(prisma.userKyc.upsert({
+        where: { userId: user.id },
+        create: { userId: user.id, ...kycUpdate },
+        update: kycUpdate
+      }));
+    }
+
+    if (Object.keys(bankUpdate).length > 0) {
+      transactionTasks.push(prisma.userBankDetails.upsert({
+        where: { userId: user.id },
+        create: { userId: user.id, ...bankUpdate },
+        update: bankUpdate
+      }));
+    }
+
+    await prisma.$transaction(transactionTasks);
+
+    const updatedUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      include: { farmerProfile: true, processorProfile: true, distributorProfile: true, retailerProfile: true, kycDetails: true, bankDetails: true }
+    });
+
+    const { password: _p, ...safeUser } = updatedUser;
 
     return res.status(200).json({
       success: true,
-      data: user.toObject()
+      data: safeUser
     });
   } catch (error) {
-    console.error("PUT profile error:", error);
-    return res.status(500).json({ 
-      message: "Internal server error", 
-      detail: error.message,
-      errorType: error.name
-    });
+    return next(error);
   }
 });
 

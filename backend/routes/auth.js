@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const prisma = require('../utils/prisma');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // SIGNUP
-
-router.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
 
@@ -16,7 +15,7 @@ router.post('/signup', async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    const existingUser = await User.findOne({ email: normalizedEmail });
+    const existingUser = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
     if (existingUser) {
       return res.status(400).json({ message: "user already registered" });
@@ -28,7 +27,10 @@ router.post('/signup', async (req, res) => {
     
     // Generate role-specific IDs
     if (role === "FARMER") {
-      const lastUser = await User.findOne({ role: "FARMER", roleId: { $exists: true, $ne: "PENDING" } }).sort({ roleId: -1 });
+      const lastUser = await prisma.user.findFirst({ 
+        where: { role: "FARMER", roleId: { not: "PENDING" } },
+        orderBy: { roleId: 'desc' }
+      });
       let nextNum = 1;
       if (lastUser && lastUser.roleId) {
         const match = lastUser.roleId.match(/S2S-FRM-(\d+)/);
@@ -36,7 +38,10 @@ router.post('/signup', async (req, res) => {
       }
       roleId = `S2S-FRM-${String(nextNum).padStart(4, '0')}`;
     } else if (role === "PROCESSOR") {
-      const lastUser = await User.findOne({ role: "PROCESSOR", roleId: { $exists: true, $ne: "PENDING" } }).sort({ roleId: -1 });
+      const lastUser = await prisma.user.findFirst({ 
+        where: { role: "PROCESSOR", roleId: { not: "PENDING" } },
+        orderBy: { roleId: 'desc' }
+      });
       let nextNum = 1;
       if (lastUser && lastUser.roleId) {
         const match = lastUser.roleId.match(/S2S-PRC-(\d+)/);
@@ -44,7 +49,10 @@ router.post('/signup', async (req, res) => {
       }
       roleId = `S2S-PRC-${String(nextNum).padStart(4, '0')}`;
     } else if (role === "DISTRIBUTOR") {
-      const lastUser = await User.findOne({ role: "DISTRIBUTOR", roleId: { $exists: true, $ne: "PENDING" } }).sort({ roleId: -1 });
+      const lastUser = await prisma.user.findFirst({ 
+        where: { role: "DISTRIBUTOR", roleId: { not: "PENDING" } },
+        orderBy: { roleId: 'desc' }
+      });
       let nextNum = 1;
       if (lastUser && lastUser.roleId) {
         const match = lastUser.roleId.match(/S2S-DST-(\d+)/);
@@ -52,7 +60,10 @@ router.post('/signup', async (req, res) => {
       }
       roleId = `S2S-DST-${String(nextNum).padStart(4, '0')}`;
     } else if (role === "RETAILER") {
-      const lastUser = await User.findOne({ role: "RETAILER", roleId: { $exists: true, $ne: "PENDING" } }).sort({ roleId: -1 });
+      const lastUser = await prisma.user.findFirst({ 
+        where: { role: "RETAILER", roleId: { not: "PENDING" } },
+        orderBy: { roleId: 'desc' }
+      });
       let nextNum = 1;
       if (lastUser && lastUser.roleId) {
         const match = lastUser.roleId.match(/S2S-RET-(\d+)/);
@@ -61,37 +72,35 @@ router.post('/signup', async (req, res) => {
       roleId = `S2S-RET-${String(nextNum).padStart(4, '0')}`;
     }
 
-    const user = await User.create({
-      name,
-      email: normalizedEmail,
-      password: hashedPassword,
-      role,
-      roleId
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email: normalizedEmail,
+        password: hashedPassword,
+        role,
+        roleId
+      }
     });
 
-
-
     const token = jwt.sign(
-      { id: user._id, role: user.role, email: user.email },
+      { id: user.id, role: user.role, email: user.email },
       process.env.JWT_SECRET || 'supersecret',
       { expiresIn: '1d' }
     );
 
     return res.status(201).json({ 
       message: "User created successfully", 
-      userId: user._id,
+      userId: user.id,
       token,
-      user: { id: user._id, name: user.name, role: user.role, email: user.email, uniqueId: user.uniqueId }
+      user: { id: user.id, name: user.name, role: user.role, email: user.email, uniqueId: user.uniqueId }
     });
   } catch (error) {
-    console.error("Signup error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return next(error);
   }
 });
 
 // LOGIN
-
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
     
@@ -101,7 +110,7 @@ router.post('/login', async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    const user = await User.findOne({ email: normalizedEmail });
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
     if (!user) {
       return res.status(404).json({ message: "account not registered" });
@@ -113,9 +122,8 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: "Invalid password credentials" });
     }
 
-
     const token = jwt.sign(
-      { id: user._id, role: user.role, email: user.email },
+      { id: user.id, role: user.role, email: user.email },
       process.env.JWT_SECRET || 'supersecret',
       { expiresIn: '1d' }
     );
@@ -124,17 +132,15 @@ router.post('/login', async (req, res) => {
       message: "Login successful",
       token,
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
         uniqueId: user.uniqueId
       }
     });
-
   } catch (error) {
-    console.error("Login error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return next(error);
   }
 });
 

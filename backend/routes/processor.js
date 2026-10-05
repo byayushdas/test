@@ -10,7 +10,7 @@ const PurchaseOrder = require('../models/PurchaseOrder');
 // ============================================================
 
 // GET /api/v1/processor/marketplace?search=&category=
-router.get('/marketplace', async (req, res) => {
+router.get('/marketplace', async (req, res, next) => {
   try {
     const { search, category } = req.query;
     const query = { status: 'Listed' };
@@ -56,12 +56,12 @@ router.get('/marketplace', async (req, res) => {
     return res.json({ success: true, data: mapped });
   } catch (err) {
     console.error('GET /processor/marketplace error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // POST /api/v1/processor/marketplace/order — Processor places buy request on a farmer harvest
-router.post('/marketplace/order', async (req, res) => {
+router.post('/marketplace/order', async (req, res, next) => {
   try {
     const { buyerId, batchId, quantityKg } = req.body;
     if (!buyerId || !batchId || !quantityKg) {
@@ -105,12 +105,12 @@ router.post('/marketplace/order', async (req, res) => {
     return res.status(201).json({ success: true, data: order });
   } catch (err) {
     console.error('POST /processor/marketplace/order error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // POST /api/v1/processor/marketplace/payment/initiate
-router.post('/marketplace/payment/initiate', async (req, res) => {
+router.post('/marketplace/payment/initiate', async (req, res, next) => {
   try {
     const { factoryId, totalAmount } = req.body;
     if (!totalAmount || totalAmount <= 0) {
@@ -118,8 +118,9 @@ router.post('/marketplace/payment/initiate', async (req, res) => {
     }
 
     const Razorpay = require('razorpay');
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_TAwi9UQj2Q7wP5';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'j41TrOzQZEd9WL9Mmu6oYahb';
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    if (!keyId || !keySecret) throw new Error("Razorpay credentials missing");
 
     const rzp = new Razorpay({ key_id: keyId, key_secret: keySecret });
     const amountInPaisa = Math.round(parseFloat(totalAmount) * 100);
@@ -150,7 +151,7 @@ router.post('/marketplace/payment/initiate', async (req, res) => {
 });
 
 // POST /api/v1/processor/marketplace/payment/verify
-router.post('/marketplace/payment/verify', async (req, res) => {
+router.post('/marketplace/payment/verify', async (req, res, next) => {
   try {
     const { razorpayPaymentId, razorpayOrderId, razorpaySignature, factoryId } = req.body;
     if (!razorpayPaymentId) {
@@ -158,18 +159,21 @@ router.post('/marketplace/payment/verify', async (req, res) => {
     }
 
     const crypto = require('crypto');
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'j41TrOzQZEd9WL9Mmu6oYahb';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    if (!keySecret) throw new Error("Razorpay credentials missing");
 
-    if (razorpayOrderId && razorpaySignature && keySecret) {
-      const body = razorpayOrderId + '|' + razorpayPaymentId;
-      const expectedSignature = crypto
-        .createHmac('sha256', keySecret)
-        .update(body)
-        .digest('hex');
+    if (!razorpayOrderId || !razorpaySignature) {
+      return res.status(400).json({ success: false, message: 'Missing payment signature or order ID' });
+    }
 
-      if (expectedSignature !== razorpaySignature) {
-        return res.status(400).json({ success: false, message: 'Invalid Razorpay payment signature' });
-      }
+    const body = razorpayOrderId + '|' + razorpayPaymentId;
+    const expectedSignature = crypto
+      .createHmac('sha256', keySecret)
+      .update(body)
+      .digest('hex');
+
+    if (expectedSignature !== razorpaySignature) {
+      return res.status(400).json({ success: false, message: 'Invalid Razorpay payment signature' });
     }
 
     const orderNumber = `ORD-2026-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -184,7 +188,7 @@ router.post('/marketplace/payment/verify', async (req, res) => {
     });
   } catch (err) {
     console.error('POST /marketplace/payment/verify error:', err);
-    return res.status(500).json({ success: false, message: err.message || 'Payment verification failed' });
+    return handleDbError(err, res);
   }
 });
 
@@ -194,7 +198,7 @@ router.post('/marketplace/payment/verify', async (req, res) => {
 // ============================================================
 
 // GET /api/v1/processor/inventory?userId=
-router.get('/inventory', async (req, res) => {
+router.get('/inventory', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -203,12 +207,12 @@ router.get('/inventory', async (req, res) => {
     return res.json({ success: true, data: items });
   } catch (err) {
     console.error('GET /processor/inventory error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // POST /api/v1/processor/inventory — Log new processed product
-router.post('/inventory', async (req, res) => {
+router.post('/inventory', async (req, res, next) => {
   try {
     const {
       userId, roleId,
@@ -316,12 +320,12 @@ router.post('/inventory', async (req, res) => {
     return res.status(201).json({ success: true, data: item });
   } catch (err) {
     console.error('POST /processor/inventory error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/inventory/:id/processing-status — Update processing limit
-router.put('/inventory/:id/processing-status', async (req, res) => {
+router.put('/inventory/:id/processing-status', async (req, res, next) => {
   try {
     const { processingStatus, remainingStock, processingQuantity, sentForProcessingDate } = req.body;
     
@@ -337,12 +341,12 @@ router.put('/inventory/:id/processing-status', async (req, res) => {
     return res.json({ success: true, data: item });
   } catch (err) {
     console.error('PUT /inventory/:id/processing-status error:', err);
-    return res.status(500).json({ success: false, message: 'Server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/inventory/:id/list — Toggle Listed/In Stock
-router.put('/inventory/:id/list', async (req, res) => {
+router.put('/inventory/:id/list', async (req, res, next) => {
   try {
     const item = await ProcessorBatch.findById(req.params.id);
     if (!item) return res.status(404).json({ success: false, message: 'Item not found' });
@@ -357,12 +361,12 @@ router.put('/inventory/:id/list', async (req, res) => {
 
     return res.json({ success: true, data: item });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // DELETE /api/v1/processor/inventory/:id
-router.delete('/inventory/:id', async (req, res) => {
+router.delete('/inventory/:id', async (req, res, next) => {
   try {
     const batchToDelete = await ProcessorBatch.findById(req.params.id);
     if (!batchToDelete) return res.status(404).json({ success: false, message: 'Item not found' });
@@ -387,7 +391,7 @@ router.delete('/inventory/:id', async (req, res) => {
     await ProcessorBatch.findByIdAndDelete(req.params.id);
     return res.json({ success: true, message: 'Item deleted and raw materials restored' });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
@@ -396,7 +400,7 @@ router.delete('/inventory/:id', async (req, res) => {
 // ============================================================
 
 // GET /api/v1/processor/purchase-orders/incoming?userId=
-router.get('/purchase-orders/incoming', async (req, res) => {
+router.get('/purchase-orders/incoming', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -408,12 +412,12 @@ router.get('/purchase-orders/incoming', async (req, res) => {
 
     return res.json({ success: true, data: orders });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // GET /api/v1/processor/purchase-orders/outgoing?userId=
-router.get('/purchase-orders/outgoing', async (req, res) => {
+router.get('/purchase-orders/outgoing', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -425,13 +429,13 @@ router.get('/purchase-orders/outgoing', async (req, res) => {
 
     return res.json({ success: true, data: orders });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 
 // PUT /api/v1/processor/purchase-orders/:id/accept
-router.put('/purchase-orders/:id/accept', async (req, res) => {
+router.put('/purchase-orders/:id/accept', async (req, res, next) => {
   try {
     const order = await PurchaseOrder.findById(req.params.id);
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -452,12 +456,12 @@ router.put('/purchase-orders/:id/accept', async (req, res) => {
 
     return res.json({ success: true, data: order });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/purchase-orders/:id/reject
-router.put('/purchase-orders/:id/reject', async (req, res) => {
+router.put('/purchase-orders/:id/reject', async (req, res, next) => {
   try {
     const { reason } = req.body;
     const order = await PurchaseOrder.findById(req.params.id);
@@ -468,10 +472,13 @@ router.put('/purchase-orders/:id/reject', async (req, res) => {
     let refundId = null;
     if (order.razorpayPaymentId) {
       try {
-        const Razorpay = require('razorpay');
+        const keyId = process.env.RAZORPAY_KEY_ID;
+        const keySecret = process.env.RAZORPAY_KEY_SECRET;
+        if (!keyId || !keySecret) throw new Error("Razorpay credentials missing");
+        
         const rzp = new Razorpay({
-          key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_TAwi9UQj2Q7wP5',
-          key_secret: process.env.RAZORPAY_KEY_SECRET || 'j41TrOzQZEd9WL9Mmu6oYahb'
+          key_id: keyId,
+          key_secret: keySecret
         });
         const refund = await rzp.payments.refund(order.razorpayPaymentId, {
           amount: Math.round(order.totalAmount * 100),
@@ -517,12 +524,12 @@ router.put('/purchase-orders/:id/reject', async (req, res) => {
 
     return res.json({ success: true, data: order });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/purchase-orders/:id/dispatch
-router.put('/purchase-orders/:id/dispatch', async (req, res) => {
+router.put('/purchase-orders/:id/dispatch', async (req, res, next) => {
   try {
     const order = await PurchaseOrder.findById(req.params.id);
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -540,7 +547,7 @@ router.put('/purchase-orders/:id/dispatch', async (req, res) => {
 
     return res.json({ success: true, data: order });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
@@ -549,7 +556,7 @@ router.put('/purchase-orders/:id/dispatch', async (req, res) => {
 // ============================================================
 
 // GET /api/v1/processor/shipments/incoming?userId= — From Farmers
-router.get('/shipments/incoming', async (req, res) => {
+router.get('/shipments/incoming', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -565,12 +572,12 @@ router.get('/shipments/incoming', async (req, res) => {
 
     return res.json({ success: true, data: shipments });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // GET /api/v1/processor/shipments/outgoing?userId= — To Distributors
-router.get('/shipments/outgoing', async (req, res) => {
+router.get('/shipments/outgoing', async (req, res, next) => {
   try {
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -586,12 +593,12 @@ router.get('/shipments/outgoing', async (req, res) => {
 
     return res.json({ success: true, data: shipments });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/shipments/:orderId/receive — Mark as delivered/received
-router.put('/shipments/:orderId/receive', async (req, res) => {
+router.put('/shipments/:orderId/receive', async (req, res, next) => {
   try {
     const order = await PurchaseOrder.findById(req.params.orderId);
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -648,12 +655,12 @@ router.put('/shipments/:orderId/receive', async (req, res) => {
 
     return res.json({ success: true, data: order });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
 // PUT /api/v1/processor/shipments/:orderId/reject
-router.put('/shipments/:orderId/reject', async (req, res) => {
+router.put('/shipments/:orderId/reject', async (req, res, next) => {
   try {
     const { reason } = req.body;
     const order = await PurchaseOrder.findById(req.params.orderId);
@@ -664,10 +671,13 @@ router.put('/shipments/:orderId/reject', async (req, res) => {
     let refundId = null;
     if (order.razorpayPaymentId) {
       try {
-        const Razorpay = require('razorpay');
+        const keyId = process.env.RAZORPAY_KEY_ID;
+        const keySecret = process.env.RAZORPAY_KEY_SECRET;
+        if (!keyId || !keySecret) throw new Error("Razorpay credentials missing");
+        
         const rzp = new Razorpay({
-          key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_TAwi9UQj2Q7wP5',
-          key_secret: process.env.RAZORPAY_KEY_SECRET || 'j41TrOzQZEd9WL9Mmu6oYahb'
+          key_id: keyId,
+          key_secret: keySecret
         });
         const refund = await rzp.payments.refund(order.razorpayPaymentId, {
           amount: Math.round(order.totalAmount * 100),
@@ -701,7 +711,7 @@ router.put('/shipments/:orderId/reject', async (req, res) => {
 
     return res.json({ success: true, data: order });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
@@ -710,7 +720,7 @@ router.put('/shipments/:orderId/reject', async (req, res) => {
 // ============================================================
 
 // GET /api/v1/processor/reports?userId=&timeframe=
-router.get('/reports', async (req, res) => {
+router.get('/reports', async (req, res, next) => {
   try {
     const { userId, timeframe } = req.query;
     if (!userId) return res.status(400).json({ success: false, message: 'userId required' });
@@ -721,7 +731,7 @@ router.get('/reports', async (req, res) => {
     return res.json({ success: true, data });
   } catch (err) {
     console.error('GET /processor/reports error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    return handleDbError(err, res);
   }
 });
 
