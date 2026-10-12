@@ -6,7 +6,7 @@
   position: relative;
   background: #0f172a;
   color: #f8fafc;
-  font-family: inherit;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 /* Top corner bar when logged in */
@@ -14,10 +14,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 2rem;
+  padding: 1.1rem 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .top-bar-brand {
@@ -25,14 +28,44 @@
   font-size: 1.15rem;
   letter-spacing: -0.02em;
   color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  background: #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email-pill {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .top-corner-logout-btn {
   background-color: #ef4444;
   color: #ffffff;
   border: none;
-  padding: 0.6rem 1.25rem;
-  font-size: 0.9rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.88rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
@@ -54,18 +87,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1rem;
+}
+
+/* Portal Container for Forms & Profiles */
+.portal-container {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Auth Card */
 .auth-box {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   background: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  padding: 2.25rem 2rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 .auth-header {
@@ -74,9 +117,10 @@
 }
 
 .auth-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.85rem;
+  font-weight: 800;
   margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
 }
 
 .auth-subtitle {
@@ -87,61 +131,112 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.25rem;
 }
 
+/* General Form Elements */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
   text-align: left;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-group label {
   font-size: 0.85rem;
   font-weight: 600;
   color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-group label .req {
+  color: #f43f5e;
+  font-weight: 700;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.75rem 0.9rem;
-  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: #0f172a;
   color: #f8fafc;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 .form-group input:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+  background: #131d33;
 }
 
+.form-group input::placeholder {
+  color: #64748b;
+}
+
+/* Submit & Action Buttons */
 .submit-btn {
-  margin-top: 0.5rem;
-  padding: 0.8rem;
+  padding: 0.85rem 1.5rem;
   background: #38bdf8;
   color: #0f172a;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .submit-btn:hover {
   background: #7dd3fc;
   transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.35);
 }
 
 .submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.cancel-btn {
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.form-buttons-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-buttons-row .submit-btn {
+  flex: 1;
 }
 
 .toggle-mode {
@@ -165,79 +260,373 @@
   color: #7dd3fc;
 }
 
-/* Feedback messages */
+/* Alerts */
 .alert-box {
-  padding: 0.75rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  margin-bottom: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.45;
   text-align: left;
+  animation: fadeIn 0.3s ease;
 }
 
 .alert-error {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.4);
   color: #fca5a5;
 }
 
 .alert-success {
-  background: rgba(34, 197, 94, 0.15);
+  background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.4);
   color: #86efac;
 }
 
-/* Logged-in success view */
-.success-card {
-  max-width: 480px;
-  width: 100%;
+/* -----------------------------------------------------------------------------
+   Student Details Form Card
+   ----------------------------------------------------------------------------- */
+.form-card {
   background: #1e293b;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 16px;
-  padding: 3rem 2rem;
-  text-align: center;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 2.25rem 2.25rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.3s ease;
+}
+
+.form-card-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.form-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+}
+
+.card-heading {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.card-subheading {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.student-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1.25rem;
 }
 
-.success-icon-wrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.2rem;
+}
+
+/* -----------------------------------------------------------------------------
+   SUBMITTED VIEW Card
+   ----------------------------------------------------------------------------- */
+.submitted-card {
+  background: #1e293b;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  border-radius: 18px;
+  padding: 2.5rem 2.25rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 30px rgba(34, 197, 94, 0.07);
+  animation: fadeIn 0.3s ease;
+  text-align: left;
+}
+
+.status-badge-wrap {
+  margin-bottom: 1rem;
+}
+
+.submitted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   background: rgba(34, 197, 94, 0.15);
-  border: 2px solid #22c55e;
-  color: #22c55e;
-  display: flex;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
+
+.badge-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #0f172a;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.25rem;
-  box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+  font-size: 0.72rem;
+  font-weight: 900;
 }
 
-.success-title {
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: #f8fafc;
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.75rem 0 1.25rem 0;
 }
 
-.user-badge {
-  font-size: 0.95rem;
+.detail-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.detail-item:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  font-weight: 600;
   color: #94a3b8;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  word-break: break-word;
+}
+
+.timestamp-note {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.edit-btn {
+  background: #38bdf8;
+  color: #0f172a;
+  border: none;
+  padding: 0.85rem 1.85rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-btn:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+}
+
+/* ID Card PDF details in Submitted Card */
+.full-width-detail {
+  grid-column: 1 / -1;
+}
+
+.pdf-display-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  margin-top: 0.35rem;
+  gap: 1rem;
+}
+
+.pdf-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.pdf-icon {
+  font-size: 1.4rem;
+}
+
+.pdf-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #f1f5f9;
+}
+
+.pdf-link-btn {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pdf-link-btn:hover {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+/* File Upload Dropzone in Form */
+.file-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.file-hidden-input {
+  display: none;
+}
+
+.file-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.6rem 1.25rem;
+  background: #0f172a;
+  border: 2px dashed rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.file-dropzone:hover {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.dropzone-icon {
+  font-size: 2rem;
+  margin-bottom: 0.2rem;
+}
+
+.dropzone-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
   word-break: break-all;
 }
 
-.user-badge strong {
-  color: #38bdf8;
+.dropzone-sub {
+  font-size: 0.8rem;
+  color: #94a3b8;
 }
 
-.success-desc {
-  font-size: 0.88rem;
-  color: #64748b;
-  max-width: 320px;
-  line-height: 1.4;
+.existing-pdf-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 8px;
+}
+
+.existing-label {
+  color: #94a3b8;
+}
+
+.existing-link {
+  color: #4ade80;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.existing-link:hover {
+  color: #86efac;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: #94a3b8;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .top-bar {
+    padding: 1rem;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-card, .submitted-card {
+    padding: 1.75rem 1.25rem;
+  }
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
 }
