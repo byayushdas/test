@@ -1,151 +1,98 @@
-# Supabase React Fullstack Auth Application
+# Seed2Shelf
 
-A clean fullstack application with a **React (Vite) frontend** and an **Express.js backend** connected to **Supabase**.
+## Project Overview
 
----
+Seed2Shelf is a blockchain based agricultural supply chain traceability and marketplace platform built to close the trust gap between farmers, processors, distributors, retailers, and consumers. The platform records every transaction and handoff of produce on chain, so the full journey of a product from harvest to shelf can be verified by anyone in seconds through a QR code scan.
 
-## 📁 Project Structure
+## The Problem
 
-```text
-├── backend/
-│   ├── .env               # Server PORT, Supabase credentials, DB URL
-│   ├── package.json       # Express, cors, dotenv, @supabase/supabase-js, pg
-│   └── server.js          # REST API endpoints (/api/auth/signup, /api/auth/login, /api/auth/logout, /api/auth/me)
-│
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx        # Simple Login/Signup view & Logged-in view with top-corner Logout button
-│   │   ├── App.css        # Clean, modern styles
-│   │   ├── supabase.js    # Supabase client setup
-│   │   └── main.jsx       # React DOM entry
-│   ├── vite.config.js     # Configured proxy to forward /api to backend (port 5000)
-│   └── package.json
-│
-└── .env                   # Root environment credentials
-```
+By the time produce leaves the field, it has typically passed through four to six middlemen and has been mixed with produce from thousands of other small farms, making it impossible to determine its true origin. Present day tracking only captures price and quantity at the mandi level, with no verification of claims such as organic certification or Geographical Indication tags for products like Basmati rice, Alphonso mangoes, or Darjeeling tea.
 
----
+This problem affects a very large share of the population. Agriculture employs 46 percent of India's workforce, and agricultural exports reached approximately ₹4.25 lakh crore (around 51.1 billion US dollars) in financial year 2025. International buyers in the European Union, the United States, and the Gulf region increasingly demand verifiable proof of origin, which the current system cannot fully provide. Government infrastructure such as AgriStack, e NAM, FSSAI, and APEDA already exists, but lacks the missing piece of a record that cannot be faked or altered.
 
-## 🚀 Running the Application
+The people most affected include small and marginal farmers, who make up 86 percent of all farmers, along with more than 10,000 Farmer Producer Organizations that grow organic or geographically certified produce but have no way to prove its authenticity, allowing middlemen to capture the resulting price premium instead of the farmers themselves. Consumers pay extra for products labeled organic with no way to confirm the claim, and exporters risk losing shipments at international borders when they cannot produce the documentation that buyers now expect.
 
-### 1. Start the Backend Server (Port 5000)
-```bash
-cd backend
-npm install
-node server.js
-```
-The backend server runs on `http://localhost:5000`.
+## Solution and Innovation
 
-### 2. Start the Frontend React App (Port 5173)
-```bash
-cd frontend
-npm install
-npm run dev
-```
-The React frontend runs on `http://localhost:5173`.
+Seed2Shelf is designed as a blockchain based marketplace rather than a simple tracking tool. Its core components are described below.
 
----
+### Blockchain Based Marketplace
 
-## 🔑 Supabase Credentials
+All five stakeholder groups, namely farmers, processors, distributors, retailers, and consumers, can buy and sell produce directly on the platform. Every transaction is executed through smart contracts, so the recorded journey of a product is built from real transactions rather than manually entered data.
 
-- **Project URL**: `https://dmpwhzruutpbtmxffwoc.supabase.co`
-- **Anon Key**: Pre-configured in `backend/.env` and `frontend/src/supabase.js`.
-- **PostgreSQL Connection String**:
-  ```text
-  postgresql://postgres:H4f29QeqPl9H1FEo@db.dmpwhzruutpbtmxffwoc.supabase.co:5432/postgres
-  ```
+### Verified Onboarding
 
----
+Before any stakeholder can transact on the platform, they must be verified against documents they already legally hold. Farmers are verified using Aadhaar, land records, and Kisan Credit Card details. Processors, distributors, and retailers are verified using FSSAI registration, GST registration, and APEDA credentials. This ensures that every wallet on the platform is tied to a real, accountable entity, closing the loophole of fake identities and fraudulent participants.
 
-## ✨ Features
+### Smart Contract Escrow
 
-- **Authentication**:
-  - Clean login and signup screens with Supabase authentication.
-  - Dedicated **Logout** button in top-right corner.
-- **Student Profile Form**:
-  - Appears after logging in.
-  - Fields: **Name**, **University**, **Class / Semester**, **Roll Number**, **Phone Number**, and **ID Card (PDF)**.
-  - File upload with format & size validation (PDF only, up to 10MB).
-  - **Submitted Status View**: Displays a clean confirmation card with "✓ Submitted" badge, entered information, and a **View / Download PDF** button.
-  - **Edit Form**: Includes an **Edit** button that re-opens the pre-filled form to update any detail or replace the ID Card PDF.
-  - Stored in Supabase `student_profiles` table and `id_cards` Storage Bucket.
+Payments are held in escrow and released automatically once agreed conditions are met, so farmers are paid without delay once the terms of a sale are satisfied. This directly addresses the leverage that middlemen currently hold over farmers, rather than simply making the problem more visible.
 
----
+### End to End Price and Ownership Transparency
 
-## 🗄️ Supabase Database & Storage Setup
+Every sale is recorded on the blockchain, meaning that the price at each stage of the supply chain is visible from farm to shelf. This exposes exactly where markup occurs between the original farmer and the final consumer.
 
-Run the following SQL in the **SQL Editor** of your [Supabase Dashboard](https://supabase.com/dashboard/project/dmpwhzruutpbtmxffwoc):
+### Consumer Verification
 
-```sql
--- 1. Create or update the student_profiles table
-CREATE TABLE IF NOT EXISTS public.student_profiles (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE NOT NULL,
-  name TEXT NOT NULL,
-  university TEXT NOT NULL,
-  class_name TEXT NOT NULL,
-  roll_no TEXT NOT NULL,
-  phone_number TEXT NOT NULL,
-  id_card_url TEXT,
-  email TEXT,
-  created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
-);
+A consumer can scan a QR code on a product and see its complete, tamper proof ownership and pricing history in under five seconds, without needing to change any existing shopping behavior.
 
--- If you already created the table previously, run this to add the ID card column:
-ALTER TABLE public.student_profiles ADD COLUMN IF NOT EXISTS id_card_url TEXT;
+### Supply Chain Flow
 
--- 2. Enable Row Level Security (RLS)
-ALTER TABLE public.student_profiles ENABLE ROW LEVEL SECURITY;
+The platform models the produce journey through the following stages: the farmer harvests the crop, a grain elevator or storage facility stores the produced crop, a grain processor refines it into a final product, a distributor receives the final product and ships it onward to dealers or retailers, a retailer buys and sells the product in smaller quantities to customers, and the end customer consumes the final product.
 
--- 3. Create Table RLS Policies
-CREATE POLICY "Users can view their own profile"
-  ON public.student_profiles
-  FOR SELECT
-  TO authenticated
-  USING (auth.uid() = user_id);
+## Market Opportunity
 
-CREATE POLICY "Users can insert their own profile"
-  ON public.student_profiles
-  FOR INSERT
-  TO authenticated
-  WITH CHECK (auth.uid() = user_id);
+### Market Validation
 
-CREATE POLICY "Users can update their own profile"
-  ON public.student_profiles
-  FOR UPDATE
-  TO authenticated
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
+The agricultural sector contributed ₹52.09 lakh crore to India's Gross Value Added in 2025 to 2026. Fifty five percent of India's population depends on agriculture for their livelihood. Eighty six percent of farmers are classified as small or marginal, meaning they hold less than two hectares of land. More than 10,000 Farmer Producer Organizations exist and can serve as a channel for scalable onboarding onto the platform.
 
--- 4. Create Storage Bucket for ID Cards
-INSERT INTO storage.buckets (id, name, public)
-VALUES ('id_cards', 'id_cards', true)
-ON CONFLICT (id) DO NOTHING;
+### Digital Readiness
 
--- 5. Storage RLS Policies
-CREATE POLICY "Allow authenticated users to upload ID cards"
-  ON storage.objects FOR INSERT
-  TO authenticated
-  WITH CHECK (bucket_id = 'id_cards');
+The existing e NAM platform has recorded ₹4.84 lakh crore in cumulative trade, with 1.80 crore farmers and 2.73 lakh traders registered, and 1,656 mandis connected to the system. A new version, e NAM 2.0, launched in 2026, further improving the digital foundation that Seed2Shelf can build upon.
 
-CREATE POLICY "Allow authenticated users to update ID cards"
-  ON storage.objects FOR UPDATE
-  TO authenticated
-  USING (bucket_id = 'id_cards');
+### Market Sizing
 
-CREATE POLICY "Allow public read access to ID cards"
-  ON storage.objects FOR SELECT
-  TO public
-  USING (bucket_id = 'id_cards');
-```
+The Total Addressable Market is estimated at ₹52 lakh crore in gross merchandise value. The Serviceable Addressable Market is estimated at ₹13 lakh crore in gross merchandise value. The Serviceable Obtainable Market for years three through five is estimated at ₹2,500 to ₹3,000 crore in gross merchandise value, calculated conservatively assuming a one percent transaction fee.
 
----
+## Business Model
 
-## ⚠️ Note on "Email rate limit exceeded"
+Seed2Shelf generates revenue through five channels.
 
-If you register new users and see `Email rate limit exceeded`:
-1. Open your [Supabase Dashboard](https://supabase.com/dashboard/project/dmpwhzruutpbtmxffwoc).
-2. Go to **Authentication** &rarr; **Providers** &rarr; **Email**.
-3. Turn **OFF** the toggle for **"Confirm email"** and click **Save**.
-4. Users can then register and sign in instantly without hitting the default 3-4 emails/hr limit.
+1. Transaction Fee: a commission of 0.5 to 1 percent is charged on every successful trade between stakeholders. Because this scales with transaction volume, it functions as a highly scalable income source.
+2. Kisan Rath Logistics Partnership: the platform integrates with the Kisan Rath transportation service and includes a service fee within the delivery charge, earning a percentage on every shipment. Revenue grows as delivery volume grows.
+3. Premium Analytics Dashboard: processors, distributors, and retailers can subscribe to access price trends, demand forecasts, inventory insights, and supply chain analytics, providing a recurring subscription revenue stream.
+4. Smart Contract Escrow Fee: a small fee is charged for secure escrow based payments and automated settlement between buyers and sellers, providing consistent fee revenue tied to transaction security.
+5. Market Intelligence Reports: anonymized, data driven reports covering crop prices, trade volumes, demand patterns, and regional supply trends are sold to agribusinesses, banks, insurers, and researchers.
+
+The guiding principle behind the business model is summarized as transparent, trusted, and traceable.
+
+## Project Architecture
+
+The application backend lives inside the same Next.js application through API routes under pages/api, rather than as a separate standalone service, in order to keep authentication, deployment, and session handling unified.
+
+The frontend is organized by user role, with each of the six roles receiving its own portal, referred to internally as a Hub, along with its own profile and wallet pages covering balance, invoices, and transactions.
+
+Shared and reusable frontend elements live under a common components folder, containing items such as the modal, navigation bar, sidebar, and profile controls, alongside a shared components folder containing items used across multiple roles such as cards and chat. Role specific components live in their own folders.
+
+Layout wrappers include an Admin layout for the admin hub, a general dashboard layout for the Farmer, Distributor, Processor, and Retailer hubs, and a public layout for pages such as home, authentication, and the public trace lookup page.
+
+Business logic is abstracted into a services layer covering authentication, blockchain interaction, notifications, orders, payments, user profiles, shipments, file uploads, and wallets, keeping this logic separate from the user interface components.
+
+## Implementation Plan
+
+### Phase One: Pilot, Zero to Six Months
+
+The pilot phase launches in a single state and a single crop category, chosen for strong Farmer Producer Organization density and existing digital agricultural infrastructure. Two to three Farmer Producer Organizations are onboarded along with a small number of processors, distributors, and one retailer, forming a complete chain from farmer to consumer. The core smart contract flow of listing, purchase, escrow, ownership transfer, and QR code generation is built and tested during this phase. Document based onboarding using Aadhaar, land records, FSSAI, and GST is validated early, as it represents the highest risk step in the process.
+
+### Phase Two: Regional Expansion, Six to Eighteen Months
+
+This phase scales onboarding to additional Farmer Producer Organizations and two to three additional states. A regional language, low bandwidth mobile application is launched for farmers. Escrow based payments and certification premium revenue features are activated. APEDA registered processors are onboarded to enable export documentation.
+
+### Phase Three: National Scale, Eighteen Months and Beyond
+
+The platform expands nationally, prioritizing regions by Farmer Producer Organization density and export value. Integration with AgriStack and e NAM 2.0 positions Seed2Shelf as complementary to existing government infrastructure, in alignment with NITI Aayog's broader digital agriculture goals. The data and analytics revenue line is activated at scale, and state government co funded onboarding is pursued, following a funding model similar to that used by PM Kisan SAMPADA for processing infrastructure.
+
+The long term goal guiding all three phases is building a transparent, inclusive, and traceable agricultural value chain, from the individual farmer to the global market.
+
+
+### Links
